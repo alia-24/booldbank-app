@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مشفى درعا الوطني | إدارة بنك الدم</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏥</text></svg>">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-screen">
+        <div class="loading-content">
+            <div class="heartbeat-animation" style="background: linear-gradient(135deg, #1e40af, #3b82f6);">
+                <i class="fas fa-hospital"></i>
+            </div>
+            <h2>مشفى درعا الوطني</h2>
+            <p>جاري تحميل نظام إدارة بنك الدم...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon" style="background: linear-gradient(135deg, #1e40af, #3b82f6);">
+                    <i class="fas fa-hospital-alt"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>مشفى درعا الوطني</h1>
+                    <span class="location-badge" style="background: rgba(30, 64, 175, 0.1); color: #1e40af;">
+                        <i class="fas fa-map-marker-alt"></i>
+                        إدارة بنك الدم
+                    </span>
+                </div>
+            </div>
+
+            <div class="nav-menu">
+                <a href="#dashboard" class="nav-link active">
+                    <i class="fas fa-tachometer-alt"></i> لوحة التحكم
+                </a>
+                <a href="#inventory" class="nav-link">
+                    <i class="fas fa-tint"></i> مخزون الدم
+                </a>
+                <a href="#requests" class="nav-link">
+                    <i class="fas fa-hand-holding-medical"></i> طلبات الدم
+                </a>
+                <a href="#donors" class="nav-link">
+                    <i class="fas fa-users"></i> المتبرعين
+                </a>
+                <a href="#reports" class="nav-link">
+                    <i class="fas fa-chart-bar"></i> التقارير
+                </a>
+                <a href="#staff" class="nav-link">
+                    <i class="fas fa-user-md"></i> الطاقم الطبي
+                </a>
+            </div>
+
+            <div class="nav-actions">
+                <!-- إشعارات -->
+                <div class="notifications">
+                    <button class="btn-icon" id="notificationsBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </button>
+                </div>
+                
+                <!-- معلومات المستخدم -->
+                <div class="user-info" onclick="toggleUserMenu()">
+                    <div class="user-avatar" style="background: linear-gradient(135deg, #1e40af, #3b82f6);">
+                        <span id="userAvatarText">ط</span>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">د. أحمد العلي</span>
+                        <span class="user-status" style="color: #3b82f6;">مدير بنك الدم</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <div class="logo-icon" style="background: linear-gradient(135deg, #1e40af, #3b82f6);">
+                    <i class="fas fa-hospital-alt"></i>
+                </div>
+                <span>مشفى درعا الوطني</span>
+            </div>
+            <button class="close-menu" id="closeMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="#dashboard" class="mobile-nav-link active">
+                <i class="fas fa-tachometer-alt"></i> لوحة التحكم
+            </a>
+            <a href="#inventory" class="mobile-nav-link">
+                <i class="fas fa-tint"></i> مخزون الدم
+            </a>
+            <a href="#requests" class="mobile-nav-link">
+                <i class="fas fa-hand-holding-medical"></i> طلبات الدم
+            </a>
+            <a href="#donors" class="mobile-nav-link">
+                <i class="fas fa-users"></i> المتبرعين
+            </a>
+            <a href="#reports" class="mobile-nav-link">
+                <i class="fas fa-chart-bar"></i> التقارير
+            </a>
+            <a href="#staff" class="mobile-nav-link">
+                <i class="fas fa-user-md"></i> الطاقم الطبي
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-tachometer-alt"></i> لوحة تحكم بنك الدم</h2>
+                    <p>نظرة عامة على إحصائيات وتقارير بنك الدم</p>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-tint" style="color: #dc2626;"></i>
+                        <div class="stat-content">
+                            <h3>1,245</h3>
+                            <p>وحدات دم متوفرة</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-exclamation-triangle" style="color: #f59e0b;"></i>
+                        <div class="stat-content">
+                            <h3>23</h3>
+                            <p>طلبات دم عاجلة</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-users" style="color: #10b981;"></i>
+                        <div class="stat-content">
+                            <h3>2,847</h3>
+                            <p>متبرع نشط</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-hospital" style="color: #3b82f6;"></i>
+                        <div class="stat-content">
+                            <h3>156</h3>
+                            <p>عملية نقل هذا الشهر</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blood Inventory Overview -->
+                <div class="dashboard-section">
+                    <h3><i class="fas fa-chart-pie"></i> نظرة عامة على مخزون الدم</h3>
+                    <div class="blood-inventory-overview">
+                        <div class="inventory-grid">
+                            <div class="inventory-card o-plus">
+                                <div class="inventory-header">
+                                    <h4>O+</h4>
+                                    <span class="inventory-status good">جيد</span>
+                                </div>
+                                <div class="inventory-details">
+                                    <div class="inventory-quantity">
+                                        <span class="quantity">342</span>
+                                        <span class="unit">وحدة</span>
+                                    </div>
+                                    <div class="inventory-progress">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 85%;"></div>
+                                        </div>
+                                        <span class="progress-text">85%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="inventory-card o-minus">
+                                <div class="inventory-header">
+                                    <h4>O-</h4>
+                                    <span class="inventory-status critical">حرج</span>
+                                </div>
+                                <div class="inventory-details">
+                                    <div class="inventory-quantity">
+                                        <span class="quantity">27</span>
+                                        <span class="unit">وحدة</span>
+                                    </div>
+                                    <div class="inventory-progress">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 15%;"></div>
+                                        </div>
+                                        <span class="progress-text">15%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="inventory-card a-plus">
+                                <div class="inventory-header">
+                                    <h4>A+</h4>
+                                    <span class="inventory-status warning">تحذير</span>
+                                </div>
+                                <div class="inventory-details">
+                                    <div class="inventory-quantity">
+                                        <span class="quantity">189</span>
+                                        <span class="unit">وحدة</span>
+                                    </div>
+                                    <div class="inventory-progress">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 45%;"></div>
+                                        </div>
+                                        <span class="progress-text">45%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="inventory-card a-minus">
+                                <div class="inventory-header">
+                                    <h4>A-</h4>
+                                    <span class="inventory-status low">منخفض</span>
+                                </div>
+                                <div class="inventory-details">
+                                    <div class="inventory-quantity">
+                                        <span class="quantity">56</span>
+                                        <span class="unit">وحدة</span>
+                                    </div>
+                                    <div class="inventory-progress">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: 28%;"></div>
+                                        </div>
+                                        <span class="progress-text">28%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="dashboard-section">
+                    <h3><i class="fas fa-history"></i> النشاطات الأخيرة</h3>
+                    <div class="activities-list">
+                        <div class="activity-item">
+                            <div class="activity-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>عملية نقل دم ناجحة</h4>
+                                <p>تم نقل 2 وحدة O+ للمريض محمد أحمد</p>
+                                <span class="activity-time">منذ 30 دقيقة</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>طلب دم عاجل</h4>
+                                <p>غرفة العمليات تطلب 4 وحدات O-</p>
+                                <span class="activity-time">منذ ساعة</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon info">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>متبرع جديد</h4>
+                                <p>سامر الحسن سجل كمتبرع جديد (A+)</p>
+                                <span class="activity-time">منذ 3 ساعات</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon primary">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>تبرع بالدم</h4>
+                                <p>تم استلام تبرع من علي محمد (B+)</p>
+                                <span class="activity-time">منذ 5 ساعات</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blood Inventory Section -->
+        <section id="inventory" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-tint"></i> إدارة مخزون الدم</h2>
+                    <p>مراقبة وإدارة وحدات الدم المتوفرة</p>
+                </div>
+
+                <!-- Inventory Controls -->
+                <div class="inventory-controls">
+                    <div class="control-group">
+                        <button class="btn btn-primary" onclick="showAddBloodModal()">
+                            <i class="fas fa-plus"></i>
+                            إضافة وحدة دم
+                        </button>
+                        <button class="btn btn-outline" onclick="showExpiryReport()">
+                            <i class="fas fa-clock"></i>
+                            وحدات قريبة الانتهاء
+                        </button>
+                        <button class="btn btn-secondary" onclick="printInventoryReport()">
+                            <i class="fas fa-print"></i>
+                            طباعة التقرير
+                        </button>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <select class="form-control" id="bloodTypeFilter">
+                            <option value="">جميع فصائل الدم</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                        
+                        <select class="form-control" id="statusFilter">
+                            <option value="">جميع الحالات</option>
+                            <option value="available">متاحة</option>
+                            <option value="reserved">محجوزة</option>
+                            <option value="expired">منتهية</option>
+                            <option value="used">مستخدمة</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Blood Units Table -->
+                <div class="blood-units-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>رقم الوحدة</th>
+                                <th>فصيلة الدم</th>
+                                <th>المتبرع</th>
+                                <th>تاريخ التبرع</th>
+                                <th>تاريخ الانتهاء</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#BLOOD-2024-001</td>
+                                <td><span class="blood-type-badge O-plus">O+</span></td>
+                                <td>أحمد محمد</td>
+                                <td>2024-01-15</td>
+                                <td>2024-03-15</td>
+                                <td><span class="status-badge available">متاحة</span></td>
+                                <td>
+                                    <button class="btn-icon" title="تفاصيل">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-icon" title="تعديل">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-icon" title="حذف">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#BLOOD-2024-002</td>
+                                <td><span class="blood-type-badge O-minus">O-</span></td>
+                                <td>سارة علي</td>
+                                <td>2024-01-14</td>
+                                <td>2024-03-14</td>
+                                <td><span class="status-badge reserved">محجوزة</span></td>
+                                <td>
+                                    <button class="btn-icon" title="تفاصيل">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-icon" title="إلغاء الحجز">
+                                        <i class="fas fa-unlock"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#BLOOD-2024-003</td>
+                                <td><span class="blood-type-badge A-plus">A+</span></td>
+                                <td>محمد خالد</td>
+                                <td>2024-01-13</td>
+                                <td>2024-03-13</td>
+                                <td><span class="status-badge used">مستخدمة</span></td>
+                                <td>
+                                    <button class="btn-icon" title="تفاصيل">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-icon" title="سجل الاستخدام">
+                                        <i class="fas fa-history"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <!-- المزيد من الصفوف... -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Inventory Summary -->
+                <div class="inventory-summary">
+                    <div class="summary-card">
+                        <h4><i class="fas fa-box"></i> ملخص المخزون</h4>
+                        <div class="summary-stats">
+                            <div class="summary-stat">
+                                <span class="stat-label">إجمالي الوحدات:</span>
+                                <span class="stat-value">1,245</span>
+                            </div>
+                            <div class="summary-stat">
+                                <span class="stat-label">متاحة للاستخدام:</span>
+                                <span class="stat-value">892</span>
+                            </div>
+                            <div class="summary-stat">
+                                <span class="stat-label">محجوزة:</span>
+                                <span class="stat-value">156</span>
+                            </div>
+                            <div class="summary-stat">
+                                <span class="stat-label">قريبة الانتهاء:</span>
+                                <span class="stat-value">42</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blood Requests Section -->
+        <section id="requests" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-hand-holding-medical"></i> إدارة طلبات الدم</h2>
+                    <p>متابعة وتنفيذ طلبات وحدات الدم</p>
+                </div>
+
+                <!-- Request Cards -->
+                <div class="requests-grid">
+                    <div class="request-card urgent">
+                        <div class="request-header">
+                            <h3>طلب عاجل - غرفة العمليات</h3>
+                            <span class="request-priority">عاجل</span>
+                        </div>
+                        <div class="request-details">
+                            <div class="detail">
+                                <i class="fas fa-user-injured"></i>
+                                <span>المريض: أحمد سعيد</span>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-tint"></i>
+                                <span>فصيلة الدم: O-</span>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-syringe"></i>
+                                <span>الكمية: 4 وحدات</span>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-clock"></i>
+                                <span>مدة الطلب: 30 دقيقة</span>
+                            </div>
+                        </div>
+                        <div class="request-actions">
+                            <button class="btn btn-primary" onclick="approveRequest('طلب عاجل - غرفة العمليات')">
+                                <i class="fas fa-check"></i>
+                                تنفيذ الطلب
+                            </button>
+                            <button class="btn btn-outline" onclick="viewRequestDetails()">
+                                <i class="fas fa-info-circle"></i>
+                                التفاصيل
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="request-card normal">
+                        <div class="request-header">
+                            <h3>طلب روتيني - قسم الولادة</h3>
+                            <span class="request-priority">عادي</span>
+                        </div>
+                        <div class="request-details">
+                            <div class="detail">
+                                <i class="fas fa-user-injured"></i>
+                                <span>المريضة: فاطمة محمود</span>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-tint"></i>
+                                <span>فصيلة الدم: A+</span>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-syringe"></i>
+                                <span>الكمية: 2 وحدات</span>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-clock"></i>
+                                <span>مدة الطلب: 4 ساعات</span>
+                            </div>
+                        </div>
+                        <div class="request-actions">
+                            <button class="btn btn-primary" onclick="approveRequest('طلب روتيني - قسم الولادة')">
+                                <i class="fas fa-check"></i>
+                                تنفيذ الطلب
+                            </button>
+                            <button class="btn btn-outline" onclick="viewRequestDetails()">
+                                <i class="fas fa-info-circle"></i>
+                                التفاصيل
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Request History -->
+                <div class="request-history">
+                    <h3><i class="fas fa-history"></i> سجل الطلبات المكتملة</h3>
+                    <div class="history-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>رقم الطلب</th>
+                                    <th>القسم الطالب</th>
+                                    <th>فصيلة الدم</th>
+                                    <th>الكمية</th>
+                                    <th>تاريخ الطلب</th>
+                                    <th>الحالة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#REQ-2024-001</td>
+                                    <td>قسم الجراحة</td>
+                                    <td>O+</td>
+                                    <td>3 وحدات</td>
+                                    <td>2024-01-15</td>
+                                    <td><span class="status-badge completed">مكتمل</span></td>
+                                </tr>
+                                <tr>
+                                    <td>#REQ-2024-002</td>
+                                    <td>غرفة الطوارئ</td>
+                                    <td>B-</td>
+                                    <td>2 وحدات</td>
+                                    <td>2024-01-14</td>
+                                    <td><span class="status-badge completed">مكتمل</span></td>
+                                </tr>
+                                <!-- المزيد من الصفوف... -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Donors Management Section -->
+        <section id="donors" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> إدارة المتبرعين</h2>
+                    <p>سجلات وتفاصيل المتبرعين بالدم</p>
+                </div>
+
+                <!-- Donors Search and Filters -->
+                <div class="donors-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="donorSearch" placeholder="بحث عن متبرع بالاسم أو رقم الهاتف...">
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="btn btn-outline active">الكل</button>
+                        <button class="btn btn-outline">نشط</button>
+                        <button class="btn btn-outline">غير نشط</button>
+                        <button class="btn btn-outline">متبرع جديد</button>
+                    </div>
+                </div>
+
+                <!-- Donors List -->
+                <div class="donors-list">
+                    <div class="donor-card">
+                        <div class="donor-avatar">
+                            <span>أح</span>
+                        </div>
+                        <div class="donor-info">
+                            <h3>أحمد محمد</h3>
+                            <div class="donor-details">
+                                <span><i class="fas fa-phone"></i> 0991234567</span>
+                                <span><i class="fas fa-tint"></i> O+</span>
+                                <span><i class="fas fa-history"></i> 12 تبرع</span>
+                            </div>
+                            <div class="donor-status">
+                                <span class="status active">نشط</span>
+                                <span class="last-donation">آخر تبرع: 2024-01-10</span>
+                            </div>
+                        </div>
+                        <div class="donor-actions">
+                            <button class="btn btn-sm btn-outline" onclick="viewDonorProfile()">
+                                <i class="fas fa-eye"></i>
+                                عرض
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="contactDonor()">
+                                <i class="fas fa-phone"></i>
+                                اتصال
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="donor-card">
+                        <div class="donor-avatar">
+                            <span>سا</span>
+                        </div>
+                        <div class="donor-info">
+                            <h3>سارة علي</h3>
+                            <div class="donor-details">
+                                <span><i class="fas fa-phone"></i> 0997654321</span>
+                                <span><i class="fas fa-tint"></i> O-</span>
+                                <span><i class="fas fa-history"></i> 8 تبرعات</span>
+                            </div>
+                            <div class="donor-status">
+                                <span class="status active">نشط</span>
+                                <span class="last-donation">آخر تبرع: 2024-01-12</span>
+                            </div>
+                        </div>
+                        <div class="donor-actions">
+                            <button class="btn btn-sm btn-outline" onclick="viewDonorProfile()">
+                                <i class="fas fa-eye"></i>
+                                عرض
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="contactDonor()">
+                                <i class="fas fa-phone"></i>
+                                اتصال
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Donor Statistics -->
+                <div class="donor-statistics">
+                    <div class="stat-card">
+                        <h4><i class="fas fa-chart-line"></i> إحصائيات المتبرعين</h4>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number">2,847</div>
+                                <div class="stat-label">إجمالي المتبرعين</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">1,892</div>
+                                <div class="stat-label">متبرع نشط</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">342</div>
+                                <div class="stat-label">متبرع جديد هذا الشهر</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">92%</div>
+                                <div class="stat-label">معدل الاستجابة</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reports Section -->
+        <section id="reports" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-bar"></i> التقارير والإحصائيات</h2>
+                    <p>تقارير مفصلة عن نشاط بنك الدم</p>
+                </div>
+
+                <!-- Report Cards -->
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <h3>تقرير فصائل الدم</h3>
+                        <p>توزيع فصائل الدم في المخزون</p>
+                        <button class="btn btn-outline" onclick="generateBloodTypeReport()">
+                            <i class="fas fa-download"></i>
+                            تحميل التقرير
+                        </button>
+                    </div>
+
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3>تقرير شهري</h3>
+                        <p>نشاط بنك الدم للشهر الحالي</p>
+                        <button class="btn btn-outline" onclick="generateMonthlyReport()">
+                            <i class="fas fa-download"></i>
+                            تحميل التقرير
+                        </button>
+                    </div>
+
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h3>تقرير المتبرعين</h3>
+                        <p>إحصائيات ونشاطات المتبرعين</p>
+                        <button class="btn btn-outline" onclick="generateDonorsReport()">
+                            <i class="fas fa-download"></i>
+                            تحميل التقرير
+                        </button>
+                    </div>
+
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3>تقرير الطوارئ</h3>
+                        <p>طلبات الدم العاجلة والمستعجلة</p>
+                        <button class="btn btn-outline" onclick="generateEmergencyReport()">
+                            <i class="fas fa-download"></i>
+                            تحميل التقرير
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h4><i class="fas fa-chart-line"></i> معدل التبرع الشهري</h4>
+                        <div class="chart-placeholder">
+                            <!-- هنا سيتم وضع رسم بياني -->
+                            <p>رسم بياني يظهر معدل التبرع خلال الأشهر الستة الماضية</p>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <h4><i class="fas fa-chart-bar"></i> توزيع فصائل الدم</h4>
+                        <div class="chart-placeholder">
+                            <!-- هنا سيتم وضع رسم بياني -->
+                            <p>رسم بياني دائري يظهر توزيع فصائل الدم في المخزون</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Staff Management Section -->
+        <section id="staff" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-user-md"></i> إدارة الطاقم الطبي</h2>
+                    <p>إدارة موظفي وطاقم بنك الدم</p>
+                </div>
+
+                <!-- Staff List -->
+                <div class="staff-list">
+                    <div class="staff-card">
+                        <div class="staff-avatar">
+                            <img src="https://via.placeholder.com/80" alt="صورة الطبيب">
+                        </div>
+                        <div class="staff-info">
+                            <h3>د. أحمد العلي</h3>
+                            <p class="staff-position">مدير بنك الدم</p>
+                            <div class="staff-details">
+                                <span><i class="fas fa-phone"></i> داخلي: 101</span>
+                                <span><i class="fas fa-envelope"></i> ahmed@daraahospital.gov.sy</span>
+                                <span><i class="fas fa-clock"></i> دوام: صباحي</span>
+                            </div>
+                        </div>
+                        <div class="staff-actions">
+                            <button class="btn-icon" title="تفاصيل">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-icon" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-icon" title="مراسلة">
+                                <i class="fas fa-envelope"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="staff-card">
+                        <div class="staff-avatar">
+                            <img src="https://via.placeholder.com/80" alt="صورة الممرضة">
+                        </div>
+                        <div class="staff-info">
+                            <h3>م. فاطمة محمد</h3>
+                            <p class="staff-position">ممرضة رئيسية</p>
+                            <div class="staff-details">
+                                <span><i class="fas fa-phone"></i> داخلي: 102</span>
+                                <span><i class="fas fa-envelope"></i> fatima@daraahospital.gov.sy</span>
+                                <span><i class="fas fa-clock"></i> دوام: مسائي</span>
+                            </div>
+                        </div>
+                        <div class="staff-actions">
+                            <button class="btn-icon" title="تفاصيل">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-icon" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-icon" title="مراسلة">
+                                <i class="fas fa-envelope"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shifts Schedule -->
+                <div class="shifts-schedule">
+                    <h3><i class="fas fa-calendar-alt"></i> جدول الورديات</h3>
+                    <div class="shifts-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>اليوم</th>
+                                    <th>الصباح (8ص - 2م)</th>
+                                    <th>المساء (2م - 8م)</th>
+                                    <th>الليل (8م - 8ص)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>الأحد</td>
+                                    <td>د. أحمد، م. فاطمة</td>
+                                    <td>د. خالد، م. سارة</td>
+                                    <td>م. علي، م. محمد</td>
+                                </tr>
+                                <tr>
+                                    <td>الاثنين</td>
+                                    <td>د. أحمد، م. فاطمة</td>
+                                    <td>د. خالد، م. سارة</td>
+                                    <td>م. علي، م. محمد</td>
+                                </tr>
+                                <!-- المزيد من الأيام... -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon" style="background: linear-gradient(135deg, #1e40af, #3b82f6);">
+                            <i class="fas fa-hospital-alt"></i>
+                        </div>
+                        <h3>مشفى درعا الوطني</h3>
+                        <p>بنك الدم - إدارة المخزون والتبرعات</p>
+                    </div>
+                    <div class="contact-info">
+                        <p><i class="fas fa-phone"></i> هاتف: 6778610</p>
+                        <p><i class="fas fa-fax"></i> فاكس: 6778611</p>
+                        <p><i class="fas fa-envelope"></i> بريد: bloodbank@daraahospital.gov.sy</p>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>روابط سريعة</h4>
+                    <ul class="footer-links">
+                        <li><a href="#dashboard">لوحة التحكم</a></li>
+                        <li><a href="#inventory">مخزون الدم</a></li>
+                        <li><a href="#requests">طلبات الدم</a></li>
+                        <li><a href="#donors">المتبرعين</a></li>
+                        <li><a href="#reports">التقارير</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>موارد</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">دليل الاستخدام</a></li>
+                        <li><a href="#">سياسة الخصوصية</a></li>
+                        <li><a href="#">الشروط والأحكام</a></li>
+                        <li><a href="#">الأسئلة الشائعة</a></li>
+                        <li><a href="#">الدعم الفني</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>ساعات العمل</h4>
+                    <ul class="work-hours">
+                        <li>بنك الدم: 24/7</li>
+                        <li>الإدارة: 8ص - 2م</li>
+                        <li>الدعم الفني: 8ص - 4م</li>
+                        <li>الطوارئ: على مدار الساعة</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2024 مشفى درعا الوطني - بنك الدم. جميع الحقوق محفوظة.</p>
+                <p class="footer-note">
+                    <i class="fas fa-heartbeat"></i>
+                    نحو صحة أفضل لمحافظة درعا
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Modals -->
+    <!-- Add Blood Unit Modal -->
+    <div id="addBloodModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus"></i> إضافة وحدة دم جديدة</h3>
+                <button class="close-modal" onclick="closeModal('addBloodModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addBloodForm">
+                    <div class="form-group">
+                        <label for="donorName"><i class="fas fa-user"></i> اسم المتبرع</label>
+                        <input type="text" id="donorName" placeholder="أدخل اسم المتبرع" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bloodType"><i class="fas fa-tint"></i> فصيلة الدم</label>
+                        <select id="bloodType" required>
+                            <option value="">اختر فصيلة الدم</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="donationDate"><i class="fas fa-calendar"></i> تاريخ التبرع</label>
+                        <input type="date" id="donationDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity"><i class="fas fa-syringe"></i> الكمية (وحدات)</label>
+                        <input type="number" id="quantity" min="1" max="10" value="1" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            حفظ الوحدة
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Panel -->
+    <div id="notificationsPanel" class="notifications-panel">
+        <div class="panel-header">
+            <h3><i class="fas fa-bell"></i> الإشعارات</h3>
+            <button class="btn-icon" onclick="closeNotifications()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="panel-body">
+            <div class="notification-item unread">
+                <div class="notification-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="notification-content">
+                    <h4>مخزون O- منخفض</h4>
+                    <p>المخزون أقل من 30 وحدة</p>
+                    <span class="notification-time">منذ 2 ساعة</span>
+                </div>
+            </div>
+            <div class="notification-item unread">
+                <div class="notification-icon">
+                    <i class="fas fa-hand-holding-medical"></i>
+                </div>
+                <div class="notification-content">
+                    <h4>طلب دم جديد</h4>
+                    <p>قسم الجراحة يطلب 3 وحدات A+</p>
+                    <span class="notification-time">منذ 3 ساعات</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <div class="notification-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="notification-content">
+                    <h4>متبرع جديد</h4>
+                    <p>سجل متبرع جديد (B+)</p>
+                    <span class="notification-time">منذ 5 ساعات</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="hospital-script.js"></script>
+</body>
+</html>

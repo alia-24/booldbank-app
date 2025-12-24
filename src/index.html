@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بنك الدم - درعا | ساهم في إنقاذ حياة</title>
+    
+    <!-- الخطوط والأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+    
+    <!-- الأنماط -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩸</text></svg>">
+</head>
+<body>
+    <!-- شاشة التحميل -->
+    <div id="loading" class="loading-screen">
+        <div class="loading-content">
+            <div class="heartbeat-animation">
+                <i class="fas fa-hands-helping"></i>
+            </div>
+            <h2>بنك الدم - درعا</h2>
+            <p>يتم التحميل...</p>
+        </div>
+    </div>
+
+    <!-- القائمة -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>بنك الدم</h1>
+                    <span class="location-badge">
+                        <i class="fas fa-map-marker-alt"></i>
+                        درعا
+                    </span>
+                </div>
+            </div>
+
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active"><i class="fas fa-home"></i> الرئيسية</a>
+                <a href="#donate" class="nav-link"><i class="fas fa-hand-holding-heart"></i> تبرع</a>
+                <a href="#centers" class="nav-link"><i class="fas fa-hospital"></i> المراكز</a>
+                <a href="#guide" class="nav-link"><i class="fas fa-book-medical"></i> الدليل</a>
+                <a href="#profile" class="nav-link"><i class="fas fa-user"></i> ملفي</a>
+            </div>
+
+            <div class="nav-actions">
+                <div class="auth-buttons" id="authButtons">
+                    <button class="btn btn-outline btn-sm" onclick="showLoginModal()">
+                        <i class="fas fa-sign-in-alt"></i> دخول
+                    </button>
+                    <button class="btn btn-primary btn-sm" onclick="showRegisterModal()">
+                        <i class="fas fa-user-plus"></i> حساب جديد
+                    </button>
+                </div>
+                
+                <div class="user-info" onclick="toggleUserMenu()">
+                    <div class="user-avatar">
+                        <span id="userAvatarText">م</span>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">متبرع جديد</span>
+                        <span class="user-status">جاهز</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- قائمة الجوال -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <span>بنك الدم - درعا</span>
+            </div>
+            <button class="close-menu" id="closeMenu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="#home" class="mobile-nav-link active"><i class="fas fa-home"></i> الرئيسية</a>
+            <a href="#donate" class="mobile-nav-link"><i class="fas fa-hand-holding-heart"></i> تبرع</a>
+            <a href="#centers" class="mobile-nav-link"><i class="fas fa-hospital"></i> المراكز</a>
+            <a href="#guide" class="mobile-nav-link"><i class="fas fa-book-medical"></i> الدليل</a>
+            <a href="#profile" class="mobile-nav-link"><i class="fas fa-user"></i> الملف</a>
+        </div>
+    </div>
+
+    <!-- المحتوى الرئيسي -->
+    <main>
+        <!-- القسم الرئيسي -->
+        <section id="home" class="section active">
+            <div class="blood-bg-animation"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text animate__animated animate__fadeInUp">
+                        <h1 class="welcome-title">
+                            <span class="city-highlight">أهلاً بيك في درعا</span><br>
+                            <span class="hero-main">كل قطرة دم بتنقذ حياة</span>
+                        </h1>
+                        <p class="hero-subtitle">
+                            نظام يربط محتاجي الدم بالمتبرعين في درعا وريفها.
+                            ساعدنا في بناء شبكة إنقاذ لأهل المحافظة.
+                        </p>
+                        
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">2,847</div>
+                                <div class="stat-label">متبرع في درعا</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">15,231</div>
+                                <div class="stat-label">حياة منقذة</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">99.2%</div>
+                                <div class="stat-label">رضا المتبرعين</div>
+                            </div>
+                        </div>
+                        
+                        <div class="hero-actions">
+                            <button class="btn btn-primary" onclick="navigateTo('donate')">
+                                <i class="fas fa-heart"></i> سجل كمتبرع
+                            </button>
+                            <button class="btn btn-outline" onclick="navigateTo('guide')">
+                                <i class="fas fa-book"></i> تعرف على التبرع
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-image">
+                        <div class="animated-hands">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <div class="floating-cells">
+                            <div class="cell cell-1"></div>
+                            <div class="cell cell-2"></div>
+                            <div class="cell cell-3"></div>
+                            <div class="cell cell-4"></div>
+                            <div class="cell cell-5"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- نموذج التبرع -->
+        <section id="donate" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-hand-holding-heart"></i> سجل كمتبرع في درعا</h2>
+                    <p>املأ البيانات للانضمام للمتبرعين</p>
+                </div>
+
+                <form id="donationForm" class="donation-form">
+                    <!-- معلومات شخصية -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-user"></i> بيانات شخصية</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="fullName"><i class="fas fa-signature"></i> الاسم</label>
+                                <input type="text" id="fullName" placeholder="اكتب اسمك" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone"><i class="fas fa-phone"></i> رقم الهاتف</label>
+                                <input type="tel" id="phone" placeholder="09xxxxxxxxx" required>
+                                <small>رقم يبدأ بـ 09 (10 أرقام)</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="nationalId"><i class="fas fa-id-card"></i> رقم الهوية</label>
+                                <input type="text" id="nationalId" placeholder="xxxxxxxxxxx" required>
+                                <small>11 رقماً</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="birthDate"><i class="fas fa-birthday-cake"></i> تاريخ الميلاد</label>
+                                <input type="date" id="birthDate" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- الموقع -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-map-marked-alt"></i> موقعك في درعا</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="city"><i class="fas fa-city"></i> المدينة/البلدة</label>
+                                <select id="city" required>
+                                    <option value="">أين تسكن؟</option>
+                                    <option value="daraa-city">مدينة درعا</option>
+                                    <option value="daraa-al-balad">درعا البلد</option>
+                                    <option value="al-sanamayn">الصنمين</option>
+                                    <option value="al-harra">الحراك</option>
+                                    <option value="in-khil">إنخل</option>
+                                    <option value="jassim">جاسم</option>
+                                    <option value="nawa">نوى</option>
+                                    <option value="tassil">تسيل</option>
+                                    <option value="al-muzayrib">المزيريب</option>
+                                    <option value="al-yadudah">اليادودة</option>
+                                    <option value="azraa">أزرع</option>
+                                    <option value="bosra">بصري</option>
+                                    <option value="tafas">طفس</option>
+                                    <option value="other">قرية أخرى</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="transport"><i class="fas fa-car"></i> وسيلة النقل</label>
+                                <select id="transport">
+                                    <option value="">كيف توصل للمركز؟</option>
+                                    <option value="car">سيارة خاصة</option>
+                                    <option value="taxi">تاكسي</option>
+                                    <option value="public">مواصلات عامة</option>
+                                    <option value="need-transport">احتاج لمواصلات</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="donation-location-note">
+                            <p><i class="fas fa-info-circle"></i> التبرع فقط في <strong>بنك الدم المركزي</strong> بدرعا</p>
+                        </div>
+                    </div>
+
+                    <!-- معلومات صحية -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-heartbeat"></i> معلومات صحية</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="bloodType"><i class="fas fa-tint"></i> فصيلة الدم</label>
+                                <select id="bloodType" required>
+                                    <option value="">اختر الفصيلة</option>
+                                    <option value="unknown">ما بعرف فصيلتي</option>
+                                    <option value="O+">O+ (O موجب) - 38% - الأكثر شيوعاً</option>
+                                    <option value="O-">O- (O سالب) - 7% - المانح العالمي</option>
+                                    <option value="A+">A+ (A موجب) - 34% - ثاني أكثر فصيلة</option>
+                                    <option value="A-">A- (A سالب) - 6% - مهم للعمليات الجراحية</option>
+                                    <option value="B+">B+ (B موجب) - 9% - منتشر في الشرق الأوسط</option>
+                                    <option value="B-">B- (B سالب) - 2% - من أندر الفصائل</option>
+                                    <option value="AB+">AB+ (AB موجب) - 3% - المتلقي العالمي</option>
+                                    <option value="AB-">AB- (AB سالب) - 1% - أندر فصيلة في العالم</option>
+                                </select>
+                                <small>إذا اخترت "ما بعرف" راح نفحصها عند التبرع</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="weight"><i class="fas fa-weight"></i> الوزن (كجم)</label>
+                                <input type="number" id="weight" min="30" max="200" placeholder="أدخل الوزن" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastDonation"><i class="fas fa-calendar-check"></i> آخر تبرع</label>
+                                <select id="lastDonation">
+                                    <option value="">اختر المدة</option>
+                                    <option value="never">ما تبرعت قبل</option>
+                                    <option value="less-1month">أقل من شهر</option>
+                                    <option value="1-2months">من 1-2 شهر</option>
+                                    <option value="2-3months">من 2-3 أشهر</option>
+                                    <option value="3-6months">من 3-6 أشهر</option>
+                                    <option value="6-12months">من 6-12 شهر</option>
+                                    <option value="over-year">أكثر من سنة</option>
+                                </select>
+                                <div class="last-donation-warning" style="display:none;margin-top:5px">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span>ما في تبرع قبل 3 أشهر من آخر تبرع</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-user-md"></i> عندك أمراض مزمنة؟</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="chronicDisease" value="no" checked> لا</label>
+                                    <label><input type="radio" name="chronicDisease" value="yes"> نعم</label>
+                                </div>
+                                <div class="chronic-disease-warning" style="display:none;margin-top:5px">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span>الأمراض المزمنة تمنع التبرع</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-smoking"></i> بتدخن؟</label>
+                            <div class="radio-group">
+                                <label><input type="radio" name="smoking" value="no" checked> لا</label>
+                                <label><input type="radio" name="smoking" value="yes"> نعم</label>
+                                <label><input type="radio" name="smoking" value="ex-smoker"> مدخن سابق</label>
+                            </div>
+                            <div class="smoking-instructions" style="display:none;margin-top:5px">
+                                <p><i class="fas fa-info-circle"></i> <strong>تعليمات للمدخنين:</strong></p>
+                                <ul style="margin-right:20px">
+                                    <li>لا تدخن قبل التبرع بـ <strong>12 ساعة على الأقل</strong></li>
+                                    <li>تجنب التدخين لساعتين بعد التبرع</li>
+                                    <li>اشرب مية كتير قبل التبرع</li>
+                                    <li>توقف عن القهوة قبل 4 ساعات من التبرع</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="medicalNotes"><i class="fas fa-sticky-note"></i> ملاحظات طبية <span class="optional">(اختياري)</span></label>
+                            <textarea id="medicalNotes" rows="3" placeholder="أي ملاحظات طبية (حساسية، أدوية، أمراض...)"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- التوفر -->
+                    <div class="form-section">
+                        <h3 class="form-section-title"><i class="fas fa-calendar-alt"></i> متاح للتبرع</h3>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar-check"></i> مواعيد بنك الدم</label>
+                            <div class="time-slots-info">
+                                <p><i class="fas fa-info-circle"></i> أوقات العمل:</p>
+                                <ul>
+                                    <li>الأحد - الخميس: 8 ص - 2 م</li>
+                                    <li>الجمعة والسبت: <span class="closed">إجازة</span></li>
+                                    <li>مدة الموعد: 30 دقيقة</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="availability-grid">
+                            <div class="form-group">
+                                <label for="appointmentDay"><i class="fas fa-calendar-day"></i> اليوم المفضل</label>
+                                <select id="appointmentDay" required>
+                                    <option value="">اختر اليوم</option>
+                                    <option value="sunday">الأحد</option>
+                                    <option value="monday">الاثنين</option>
+                                    <option value="tuesday">الثلاثاء</option>
+                                    <option value="wednesday">الأربعاء</option>
+                                    <option value="thursday">الخميس</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="appointmentTime"><i class="fas fa-clock"></i> الوقت المفضل</label>
+                                <select id="appointmentTime" required>
+                                    <option value="">اختر الوقت</option>
+                                    <option value="8:00">8:00 - 8:30 ص</option>
+                                    <option value="8:30">8:30 - 9:00 ص</option>
+                                    <option value="9:00">9:00 - 9:30 ص</option>
+                                    <option value="9:30">9:30 - 10:00 ص</option>
+                                    <option value="10:00">10:00 - 10:30 ص</option>
+                                    <option value="10:30">10:30 - 11:00 ص</option>
+                                    <option value="11:00">11:00 - 11:30 ص</option>
+                                    <option value="11:30">11:30 - 12:00 ظ</option>
+                                    <option value="12:00">12:00 - 12:30 ظ</option>
+                                    <option value="12:30">12:30 - 1:00 ظ</option>
+                                    <option value="13:00">1:00 - 1:30 ظ</option>
+                                    <option value="13:30">1:30 - 2:00 ظ</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- أزرار النموذج -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                            <i class="fas fa-redo"></i> مسح
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> إرسال
+                        </button>
+                    </div>
+                </form>
+
+                <!-- إحصاءات -->
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div class="stat-content">
+                            <h3>2,847</h3>
+                            <p>متبرع في درعا</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-tint"></i>
+                        <div class="stat-content">
+                            <h3>15,231</h3>
+                            <p>وحدة دم تبرع</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-heart"></i>
+                        <div class="stat-content">
+                            <h3>99.2%</h3>
+                            <p>تغطية احتياجات درعا</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- مراكز التبرع -->
+        <section id="centers" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-map-marker-alt"></i> بنك الدم المركزي - درعا</h2>
+                    <p>المكان الوحيد للتبرع بالمحافظة</p>
+                </div>
+
+                <div class="centers-grid">
+                    <div class="center-card">
+                        <div class="center-header">
+                            <div class="center-icon">
+                                <i class="fas fa-hospital"></i>
+                            </div>
+                            <div class="center-info">
+                                <h3>بنك الدم المركزي - درعا</h3>
+                                <span class="center-badge main">المركز الوحيد</span>
+                            </div>
+                        </div>
+                        <div class="center-details">
+                            <div class="detail-item">
+                                <i class="fas fa-map-pin"></i>
+                                <span>درعا – مقابل مشفى درعا الوطني</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-phone"></i>
+                                <span>6778610</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>الأحد - الخميس: 8ص - 2م</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-tint"></i>
+                                <span>كل فصائل الدم</span>
+                            </div>
+                        </div>
+                        
+                        <div class="center-note">
+                            <h4><i class="fas fa-info-circle"></i> ملاحظة:</h4>
+                            <p>التبرع بالدم فقط في <strong>بنك الدم المركزي</strong>. المشافي بتسحب الدم لحالات الطوارئ والتحاليل، والدم المسحوب في المشافي <strong>ما بيستخدم للتبرع</strong> ويتم التخلص منه بعد التحليل.</p>
+                        </div>
+                        
+                        <button class="btn btn-primary center-btn" onclick="navigateTo('donate')">
+                            <i class="fas fa-calendar-check"></i> احجز موعد
+                        </button>
+                    </div>
+                </div>
+
+                <div class="hospitals-note">
+                    <h3><i class="fas fa-hospital-alt"></i> ملاحظة عن المشافي</h3>
+                    <p>المشافي في درعا <strong>ما بتقبل متبرعين</strong>، بس بتسحب الدم في الحالات:</p>
+                    <ul>
+                        <li>حالات الطوارئ (نزيف، حوادث)</li>
+                        <li>التحاليل المخبرية</li>
+                        <li>فحوصات طبية</li>
+                    </ul>
+                    <p class="warning-note">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        الدم المسحوب في المشافي <strong>بيتلف وما بيستخدم للتبرع</strong> للمحتاجين.
+                    </p>
+                </div>
+
+                <div class="emergency-info">
+                    <div class="emergency-card">
+                        <div class="emergency-icon">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <div class="emergency-content">
+                            <h3>أرقام طوارئ</h3>
+                            <div class="emergency-numbers">
+                                <div class="emergency-number">
+                                    <span class="number-label">طوارئ:</span>
+                                    <span class="number-value">112</span>
+                                </div>
+                                <div class="emergency-number">
+                                    <span class="number-label">إسعاف:</span>
+                                    <span class="number-value">110</span>
+                                </div>
+                                <div class="emergency-number">
+                                    <span class="number-label">بنك الدم:</span>
+                                    <span class="number-value">6778610</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- دليل التبرع -->
+        <section id="guide" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-book-medical"></i> دليل التبرع بالدم</h2>
+                    <p>كل شي لازم تعرفه قبل التبرع</p>
+                </div>
+
+                <div class="guide-content">
+                    <div class="guide-grid">
+                        <div class="guide-card">
+                            <div class="guide-icon"><i class="fas fa-check-circle"></i></div>
+                            <h3>شروط التبرع</h3>
+                            <ul class="guide-list">
+                                <li>العمر 18-65 سنة</li>
+                                <li>الوزن 50 كجم على الأقل</li>
+                                <li>ضغط الدم طبيعي</li>
+                                <li>لا أمراض معدية</li>
+                                <li>لا عمليات جراحية حديثة</li>
+                            </ul>
+                        </div>
+
+                        <div class="guide-card">
+                            <div class="guide-icon"><i class="fas fa-ban"></i></div>
+                            <h3>موانع التبرع</h3>
+                            <ul class="guide-list">
+                                <li>أمراض القلب والكبد</li>
+                                <li>أمراض الدم المعدية</li>
+                                <li>الحمل والرضاعة</li>
+                                <li>أدوية مذيبة للدم</li>
+                                <li>عمليات خلال 6 شهور</li>
+                            </ul>
+                        </div>
+
+                        <div class="guide-card">
+                            <div class="guide-icon"><i class="fas fa-utensils"></i></div>
+                            <h3>نصائح قبل التبرع</h3>
+                            <ul class="guide-list">
+                                <li>كل وجبة خفيفة</li>
+                                <li>اشرب مية كتير</li>
+                                <li>تجنب الدهون قبل يوم</li>
+                                <li>نام كويس</li>
+                                <li>تجنب التدخين قبل</li>
+                            </ul>
+                        </div>
+
+                        <div class="guide-card">
+                            <div class="guide-icon"><i class="fas fa-heartbeat"></i></div>
+                            <h3>فوائد التبرع</h3>
+                            <ul class="guide-list">
+                                <li>إنقاذ حياة</li>
+                                <li>تجديد خلايا الدم</li>
+                                <li>تقليل خطر القلب</li>
+                                <li>فحص صحي مجاني</li>
+                                <li>شعور بالإنجاز</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="blood-types-info">
+                        <h3><i class="fas fa-tint"></i> فصائل الدم</h3>
+                        <div class="blood-types-grid">
+                            <div class="blood-type-card o-plus">
+                                <div class="blood-type-header">
+                                    <h4>O+ (O موجب)</h4><span>38%</span>
+                                </div>
+                                <p><strong>نسبة الانتشار:</strong> الأكثر شيوعاً</p>
+                                <p><strong>يتبرع لـ:</strong> O+, A+, B+, AB+</p>
+                                <p><strong>يستقبل من:</strong> O+, O-</p>
+                                <p><strong>ملاحظات:</strong> الأكثر طلباً في بنوك الدم</p>
+                            </div>
+                            <div class="blood-type-card o-minus">
+                                <div class="blood-type-header">
+                                    <h4>O- (O سالب)</h4><span>7%</span>
+                                </div>
+                                <p><strong>نسبة الانتشار:</strong> نادرة نسبياً</p>
+                                <p><strong>يتبرع لـ:</strong> جميع الفصائل</p>
+                                <p><strong>يستقبل من:</strong> O- فقط</p>
+                                <p><strong>ملاحظات:</strong> المانح العالمي - تنقذ في حالات الطوارئ</p>
+                            </div>
+                            <div class="blood-type-card a-plus">
+                                <div class="blood-type-header">
+                                    <h4>A+ (A موجب)</h4><span>34%</span>
+                                </div>
+                                <p><strong>نسبة الانتشار:</strong> ثاني أكثر فصيلة</p>
+                                <p><strong>يتبرع لـ:</strong> A+, AB+</p>
+                                <p><strong>يستقبل من:</strong> A+, A-, O+, O-</p>
+                                <p><strong>ملاحظات:</strong> مطلوبة بكثرة للعمليات الجراحية</p>
+                            </div>
+                            <div class="blood-type-card a-minus">
+                                <div class="blood-type-header">
+                                    <h4>A- (A سالب)</h4><span>6%</span>
+                                </div>
+                                <p><strong>نسبة الانتشار:</strong> نادرة نسبياً</p>
+                                <p><strong>يتبرع لـ:</strong> A+, A-, AB+, AB-</p>
+                                <p><strong>يستقبل من:</strong> A-, O-</p>
+                                <p><strong>ملاحظات:</strong> مهمة للحوامل والعمليات المخططة</p>
+                            </div>
+                            <div class="blood-type-card b-plus">
+                                <div class="blood-type-header">
+                                    <h4>B+ (B موجب)</h4><span>9%</span>
+                                </div>
+                                <p><strong>نسبة الانتشار:</strong> متوسطة الانتشار</p>
+                                <p><strong>يتبرع لـ:</strong> B+, AB+</p>
+                                <p><strong>يستقبل من:</strong> B+, B-, O+, O-</p>
+                                <p><strong>ملاحظات:</strong> منتشرة في منطقة الشرق الأوسط</p>
+                            </div>
+                            <div class="blood-type-card b-minus">
+                                <div class="blood-type-header">
+                                    <h4>B- (B سالب)</h4><span>2%</span>
+                                </div>
+                                <p><strong>نسبة الانتشار:</strong> نادرة جداً</p>
+                                <p><strong>يتبرع لـ:</strong> B+, B-, AB+, AB-</p>
+                                <p><strong>يستقبل من:</strong> B-, O-</p>
+                                <p><strong>ملاحظات:</strong> من أندر فصائل الدم - مطلوبة بشدة</p>
+                            </div>
+                            <div class="blood-type-card ab-plus">
+                                <div class="blood-type-header">
+                                    <h4>AB+ (AB موجب)</h4><span>3%</span>
+                                </div>
+                                <p><strong>نسبة الانتشار:</strong> نادرة</p>
+                                <p><strong>يتبرع لـ:</strong> AB+ فقط</p>
+                                <p><strong>يستقبل من:</strong> جميع الفصائل</p>
+                                <p><strong>ملاحظات:</strong> المتلقي العالمي - نادرة الطلب</p>
+                            </div>
+                            <div class="blood-type-card ab-minus">
+                                <div class="blood-type-header">
+                                    <h4>AB- (AB سالب)</h4><span>1%</span>
+                                </div>
+                                <p><strong>نسبة الانتشار:</strong> أندر فصيلة</p>
+                                <p><strong>يتبرع لـ:</strong> AB+, AB-</p>
+                                <p><strong>يستقبل من:</strong> AB-, A-, B-, O-</p>
+                                <p><strong>ملاحظات:</strong> أندر فصيلة في العالم - قيمة جداً</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- الملف الشخصي -->
+        <section id="profile" class="section">
+            <div class="container">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="avatar-large">
+                            <span id="profileAvatar">م</span>
+                            <div class="blood-drop-badge" id="bloodTypeBadge">؟</div>
+                        </div>
+                        <div class="profile-info">
+                            <h2 id="profileName">مرحبًا، متبرع جديد</h2>
+                            <p id="profileStatus">سجل لتبدأ رحلة الإنقاذ</p>
+                            <div class="blood-type-actions">
+                                <button class="btn btn-sm btn-outline" onclick="updateBloodTypePrompt()">
+                                    <i class="fas fa-edit"></i> غير فصيلة دمي
+                                </button>
+                            </div>
+                            <div class="profile-level" id="profileLevelContainer">
+                                <div class="level-bar">
+                                    <div class="level-progress" id="levelProgress"></div>
+                                </div>
+                                <span class="level-text" id="levelText">مبتدئ</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-facts">
+                        <div class="fact-card">
+                            <div class="fact-icon"><i class="fas fa-heartbeat"></i></div>
+                            <div class="fact-content">
+                                <h4 id="bloodTypeFact">فصيلة الدم</h4>
+                                <p id="bloodTypeValue" class="blood-type-display">ما بتعرف</p>
+                            </div>
+                        </div>
+                        
+                        <div class="fact-card">
+                            <div class="fact-icon"><i class="fas fa-medal"></i></div>
+                            <div class="fact-content">
+                                <h4>المستوى</h4>
+                                <p id="donorLevel">مبتدئ</p>
+                            </div>
+                        </div>
+                        
+                        <div class="fact-card">
+                            <div class="fact-icon"><i class="fas fa-history"></i></div>
+                            <div class="fact-content">
+                                <h4>آخر تبرع</h4>
+                                <p id="lastDonationDate">ما في</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="donation-details">
+                        <h3><i class="fas fa-tint"></i> إحصاءات تبرعاتك</h3>
+                        
+                        <div class="stats-grid">
+                            <div class="detail-stat">
+                                <div class="stat-number" id="totalDonations">0</div>
+                                <div class="stat-label">عدد التبرعات</div>
+                            </div>
+                            
+                            <div class="detail-stat">
+                                <div class="stat-number" id="livesSaved">0</div>
+                                <div class="stat-label">أرواح منقذة</div>
+                                <small>كل تبرع بنقذ حتى 3 أشخاص</small>
+                            </div>
+                            
+                            <div class="detail-stat">
+                                <div class="stat-number" id="daysToNext">--</div>
+                                <div class="stat-label">يوم للتبرع القادم</div>
+                            </div>
+                            
+                            <div class="detail-stat">
+                                <div class="stat-number" id="localRank">--</div>
+                                <div class="stat-label">مستواك بين المتبرعين</div>
+                            </div>
+                        </div>
+                        
+                        <div class="blood-info-card" id="bloodInfoCard">
+                            <div class="blood-info-header">
+                                <h4><i class="fas fa-info-circle"></i> معلومات عن فصيلتك</h4>
+                                <span class="blood-importance" id="bloodImportance">--</span>
+                            </div>
+                            <div class="blood-info-content">
+                                <p id="bloodTypeInfo">سجل فصيلة دمك عشان تعرف معلومات</p>
+                                <div class="blood-facts" id="bloodFacts">
+                                    <div class="fact">
+                                        <i class="fas fa-users"></i>
+                                        <span>نسبة الناس نفس فصيلتك: <strong id="bloodPercentage">--</strong></span>
+                                    </div>
+                                    <div class="fact">
+                                        <i class="fas fa-heart"></i>
+                                        <span>بتتبرع لـ: <strong id="canDonateTo">--</strong></span>
+                                    </div>
+                                    <div class="fact">
+                                        <i class="fas fa-hand-holding-medical"></i>
+                                        <span>بتستقبل من: <strong id="canReceiveFrom">--</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="donation-history">
+                            <h4><i class="fas fa-calendar-alt"></i> تاريخ تبرعاتك</h4>
+                            <div class="history-list" id="donationHistory">
+                                <div class="empty-history">
+                                    <i class="fas fa-history"></i>
+                                    <p>ما في تبرعات سابقة</p>
+                                    <button class="btn btn-sm btn-outline" onclick="navigateTo('donate')">
+                                        ابدأ أول تبرع
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="badges-section">
+                            <h4><i class="fas fa-award"></i> أوسمة</h4>
+                            <div class="badges-grid" id="badgesGrid">
+                                <div class="badge-item welcome-badge">
+                                    <div class="badge-icon"><i class="fas fa-heart"></i></div>
+                                    <div class="badge-info">
+                                        <h5>أهلًا وسهلًا</h5>
+                                        <p>متبرع جديد في درعا</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions" id="profileActions">
+                        <button class="btn btn-primary" onclick="navigateTo('donate')">
+                            <i class="fas fa-plus"></i> ابدأ تبرع جديد
+                        </button>
+                        <button class="btn btn-outline" onclick="showBloodInfoModal()">
+                            <i class="fas fa-info-circle"></i> معلومات عن التبرع
+                        </button>
+                        <button class="btn btn-secondary" onclick="shareAchievement()">
+                            <i class="fas fa-share-alt"></i> شارك إنجازك
+                        </button>
+                    </div>
+                    
+                    <div class="quick-fact">
+                        <i class="fas fa-lightbulb"></i>
+                        <span id="randomFact">الدم المتبرع بتحفظ عادة لمدة 42 يوم بس، فتبرعك دايمًا مهم!</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- الفوتر -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon"><i class="fas fa-heartbeat"></i></div>
+                        <h3>بنك الدم - درعا</h3>
+                        <p>نظام لخدمة أهل المحافظة</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>روابط</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">الرئيسية</a></li>
+                        <li><a href="#donate">تبرع</a></li>
+                        <li><a href="#centers">المراكز</a></li>
+                        <li><a href="#guide">الدليل</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>تواصل معنا</h4>
+                    <ul class="footer-contacts">
+                        <li><i class="fas fa-phone"></i> 6778610</li>
+                        <li><i class="fas fa-ambulance"></i> طوارئ: 112</li>
+                        <li><i class="fas fa-envelope"></i> bloodbank@daraa.gov.sy</li>
+                        <li><i class="fas fa-map-marker-alt"></i> درعا، سوريا</li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>أوقات العمل</h4>
+                    <ul class="work-hours">
+                        <li>الأحد - الخميس: 8 ص - 2 م</li>
+                        <li>الجمعة والسبت: <span class="closed">إجازة</span></li>
+                        <li>مدة الموعد: 30 دقيقة</li>
+                        <li>آخر موعد: 1:30 - 2:00 م</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2024 بنك الدم - درعا. كل الحقوق محفوظة.</p>
+                <p class="footer-note">
+                    <i class="fas fa-heart"></i> سوا بننقذ حياة أهل درعا
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- الإشعارات -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- النوافذ -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h3>
+                <button class="close-modal" onclick="closeModal('loginModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginPhone"><i class="fas fa-phone"></i> رقم الهاتف</label>
+                        <input type="tel" id="loginPhone" placeholder="09xxxxxxxxx" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword"><i class="fas fa-lock"></i> كلمة السر</label>
+                        <input type="password" id="loginPassword" placeholder="أدخل كلمة السر" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> دخول
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> حساب جديد</h3>
+                <button class="close-modal" onclick="closeModal('registerModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="regName"><i class="fas fa-user"></i> الاسم</label>
+                        <input type="text" id="regName" placeholder="الاسم" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPhone"><i class="fas fa-phone"></i> رقم الهاتف</label>
+                        <input type="tel" id="regPhone" placeholder="09xxxxxxxxx" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regBloodType"><i class="fas fa-tint"></i> فصيلة الدم</label>
+                        <select id="regBloodType" required>
+                            <option value="">اختر فصيلة الدم</option>
+                            <option value="unknown">ما بعرف فصيلتي</option>
+                            <option value="O+">O+ (O موجب)</option>
+                            <option value="O-">O- (O سالب)</option>
+                            <option value="A+">A+ (A موجب)</option>
+                            <option value="A-">A- (A سالب)</option>
+                            <option value="B+">B+ (B موجب)</option>
+                            <option value="B-">B- (B سالب)</option>
+                            <option value="AB+">AB+ (AB موجب)</option>
+                            <option value="AB-">AB- (AB سالب)</option>
+                        </select>
+                        <small>إذا اخترت "ما بعرف" بتقدر تحدثها بعدين</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-heartbeat"></i> عندك أمراض مزمنة تمنع التبرع؟</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="regChronicDisease" value="no" checked required> لا، ما عندي</label>
+                            <label><input type="radio" name="regChronicDisease" value="yes" required> نعم، عندي</label>
+                        </div>
+                        <div class="reg-disease-warning" style="display:none;color:#ef4444;margin-top:5px">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>ما في تسجيل بسبب الأمراض المزمنة. راجع طبيبك.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="regPassword"><i class="fas fa-lock"></i> كلمة السر</label>
+                        <input type="password" id="regPassword" placeholder="6 أحرف على الأقل" minlength="6" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regConfirmPassword"><i class="fas fa-lock"></i> تأكيد كلمة السر</label>
+                        <input type="password" id="regConfirmPassword" placeholder="أعد كلمة السر" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> إنشاء حساب
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- قائمة المستخدم -->
+    <div id="userMenu" class="dropdown-menu">
+        <div class="dropdown-header">
+            <div class="user-avatar">
+                <span id="userInitial">م</span>
+            </div>
+            <div class="user-info">
+                <h4 id="userFullName">متبرع جديد</h4>
+                <span id="userPhone">غير مسجل</span>
+            </div>
+        </div>
+        <div class="dropdown-items">
+            <a href="#profile" class="dropdown-item" onclick="navigateTo('profile'); hideUserMenu()">
+                <i class="fas fa-user"></i> الملف
+            </a>
+            <a href="#donate" class="dropdown-item" onclick="navigateTo('donate'); hideUserMenu()">
+                <i class="fas fa-hand-holding-heart"></i> تبرع جديد
+            </a>
+            <div class="dropdown-divider"></div>
+            <button class="dropdown-item logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> خروج
+            </button>
+        </div>
+    </div>
+
+    <!-- حجز موعد -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-calendar-check"></i> حجز موعد</h3>
+                <button class="close-modal" onclick="closeModal('bookingModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="bookingCenterName">بتحميل المعلومات...</p>
+                <div class="form-group">
+                    <label for="bookingDate"><i class="fas fa-calendar"></i> التاريخ</label>
+                    <input type="date" id="bookingDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="bookingTime"><i class="fas fa-clock"></i> الوقت</label>
+                    <select id="bookingTime" required>
+                        <option value="">اختر الوقت</option>
+                        <option value="8:00">8:00 - 8:30 ص</option>
+                        <option value="8:30">8:30 - 9:00 ص</option>
+                        <option value="9:00">9:00 - 9:30 ص</option>
+                        <option value="9:30">9:30 - 10:00 ص</option>
+                        <option value="10:00">10:00 - 10:30 ص</option>
+                        <option value="10:30">10:30 - 11:00 ص</option>
+                        <option value="11:00">11:00 - 11:30 ص</option>
+                        <option value="11:30">11:30 - 12:00 ظ</option>
+                        <option value="12:00">12:00 - 12:30 ظ</option>
+                        <option value="12:30">12:30 - 1:00 ظ</option>
+                        <option value="13:00">1:00 - 1:30 ظ</option>
+                        <option value="13:30">1:30 - 2:00 ظ</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" onclick="confirmBooking()">
+                        <i class="fas fa-check"></i> تأكيد
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- معلومات الدم -->
+    <div id="bloodInfoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-tint"></i> معلومات فصائل الدم</h3>
+                <button class="close-modal" onclick="closeModal('bloodInfoModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="blood-compatibility">
+                    <h4>توافق فصائل الدم</h4>
+                    <p>كل فصيلة دم عندها خصائص مختلفة:</p>
+                    <ul>
+                        <li><strong>O-:</strong> متبرع عام - الكل بيقدر يستقبل منه</li>
+                        <li><strong>AB+:</strong> مستقبل عام - بيقدر يستقبل من الكل</li>
+                        <li><strong>A+, B+:</strong> الأكثر انتشار</li>
+                        <li><strong>AB-:</strong> أندر فصيلة</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- زر المشاركة -->
+    <button class="share-btn" id="shareBtn" onclick="shareAchievement()" title="شارك">
+        <i class="fas fa-share-alt"></i>
+    </button>
+
+    <!-- ملف الجافاسكريبت -->
+    <script src="script.js"></script>
+</body>
+</html>
