@@ -1,0 +1,234 @@
+/* src/components/layout/sidebar.css */
+.sidebar {
+  width: 280px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+  border-left: 1px solid #E5E7EB;
+  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.05);
+  position: fixed;
+  top: 70px;
+  right: 0;
+  bottom: 0;
+  z-index: 900;
+  transition: all 0.3s ease;
+  direction: rtl;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+/* زر طي/فتح السيدبار */
+.toggle-sidebar {
+  position: absolute;
+  top: 20px;
+  left: -15px;
+  width: 30px;
+  height: 30px;
+  background: white;
+  border: 2px solid #E5E7EB;
+  border-radius: 50%;
+  color: #4B5563;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.toggle-sidebar:hover {
+  background: #F3F4F6;
+  border-color: #DC143C;
+  color: #DC143C;
+  transform: scale(1.1);
+}
+
+/* قائمة التنقل */
+.sidebar-nav {
+  flex: 1;
+  padding: 30px 0;
+}
+
+.nav-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin-bottom: 4px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 16px 25px;
+  color: #4B5563;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  background: #F3F4F6;
+  color: #1F2937;
+}
+
+.nav-link.active {
+  background: linear-gradient(90deg, rgba(220, 20, 60, 0.1) 0%, rgba(255, 107, 107, 0.05) 100%);
+  color: #DC143C;
+  border-right: 3px solid #DC143C;
+}
+
+.nav-link.active::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #DC143C;
+}
+
+.nav-icon {
+  width: 40px;
+  height: 40px;
+  background: #F3F4F6;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #4B5563;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover .nav-icon,
+.nav-link.active .nav-icon {
+  background: #DC143C;
+  color: white;
+  transform: scale(1.1);
+}
+
+.nav-label {
+  flex: 1;
+  font-size: 15px;
+}
+
+/* عندما يكون السيدبار مطوي */
+.sidebar.collapsed .nav-label,
+.sidebar.collapsed .sidebar-stats,
+.sidebar.collapsed .sidebar-footer {
+  display: none;
+}
+
+.sidebar.collapsed .nav-link {
+  justify-content: center;
+  padding: 16px;
+}
+
+.sidebar.collapsed .nav-icon {
+  width: 45px;
+  height: 45px;
+}
+
+/* إحصائيات سريعة */
+.sidebar-stats {
+  padding: 0 25px 30px;
+}
+
+.stats-title {
+  color: #1F2937;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #F3F4F6;
+}
+
+.stats-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-card {
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #DC143C;
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1F2937;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+/* تذييل السيدبار */
+.sidebar-footer {
+  padding: 20px 25px;
+  border-top: 1px solid #E5E7EB;
+  background: #F9FAFB;
+}
+
+.last-update {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #6B7280;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(100%);
+    width: 300px;
+  }
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .toggle-sidebar {
+    display: none;
+  }
+}
