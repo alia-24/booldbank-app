@@ -1,198 +1,74 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/layout/Header';
+import '../../styles/main.css';
 import '../../styles/reports.css';
 import * as XLSX from 'xlsx';
 
 const ReportsPage = () => {
-  // بيانات المخزون الحقيقية
+  // بيانات المخزون
   const [bloodInventory] = useState([
-    { type: 'A+', quantity: 45, minQuantity: 20, status: 'جيد', lastUpdated: '2024-01-24', price: 35000 },
-    { type: 'A-', quantity: 15, minQuantity: 20, status: 'منخفض', lastUpdated: '2024-01-24', price: 40000 },
-    { type: 'B+', quantity: 38, minQuantity: 20, status: 'جيد', lastUpdated: '2024-01-23', price: 35000 },
-    { type: 'B-', quantity: 22, minQuantity: 20, status: 'جيد', lastUpdated: '2024-01-23', price: 40000 },
-    { type: 'AB+', quantity: 12, minQuantity: 15, status: 'حرج', lastUpdated: '2024-01-22', price: 45000 },
-    { type: 'AB-', quantity: 8, minQuantity: 15, status: 'حرج', lastUpdated: '2024-01-22', price: 50000 },
-    { type: 'O+', quantity: 62, minQuantity: 25, status: 'ممتاز', lastUpdated: '2024-01-24', price: 30000 },
-    { type: 'O-', quantity: 29, minQuantity: 20, status: 'جيد', lastUpdated: '2024-01-24', price: 42000 }
+    { type: 'A+', quantity: 45, minQuantity: 20, status: 'جيد', lastUpdated: new Date().toISOString().split('T')[0], price: 35000 },
+    { type: 'A-', quantity: 15, minQuantity: 20, status: 'منخفض', lastUpdated: new Date().toISOString().split('T')[0], price: 40000 },
+    { type: 'B+', quantity: 38, minQuantity: 20, status: 'جيد', lastUpdated: new Date().toISOString().split('T')[0], price: 35000 },
+    { type: 'B-', quantity: 22, minQuantity: 20, status: 'جيد', lastUpdated: new Date().toISOString().split('T')[0], price: 40000 },
+    { type: 'AB+', quantity: 12, minQuantity: 15, status: 'حرج', lastUpdated: new Date().toISOString().split('T')[0], price: 45000 },
+    { type: 'AB-', quantity: 8, minQuantity: 15, status: 'حرج', lastUpdated: new Date().toISOString().split('T')[0], price: 50000 },
+    { type: 'O+', quantity: 62, minQuantity: 25, status: 'ممتاز', lastUpdated: new Date().toISOString().split('T')[0], price: 30000 },
+    { type: 'O-', quantity: 29, minQuantity: 20, status: 'جيد', lastUpdated: new Date().toISOString().split('T')[0], price: 42000 }
   ]);
 
-  // بيانات المتبرعين الحقيقية
-  const [donorsData] = useState([
-    { id: 1, name: 'أحمد محمد', bloodType: 'A+', lastDonation: '2024-01-20', totalDonations: 5, status: 'نشط' },
-    { id: 2, name: 'سارة خالد', bloodType: 'O-', lastDonation: '2024-01-18', totalDonations: 3, status: 'نشط' },
-    { id: 3, name: 'محمد علي', bloodType: 'B+', lastDonation: '2024-01-15', totalDonations: 7, status: 'نشط' },
-    { id: 4, name: 'فاطمة حسن', bloodType: 'AB+', lastDonation: '2023-12-28', totalDonations: 2, status: 'غير نشط' },
-    { id: 5, name: 'خالد مصطفى', bloodType: 'A-', lastDonation: '2024-01-10', totalDonations: 4, status: 'نشط' }
-  ]);
-
-  // بيانات المبيعات (للتقارير المالية فقط)
-  const [salesData] = useState([
-    { id: 'SALE_001', hospital: 'مستشفى درعا الوطني', bloodType: 'A+', quantity: 3, price: 105000, date: '2024-01-24', time: '10:30' },
-    { id: 'SALE_002', hospital: 'مستشفى الصنمين', bloodType: 'O-', quantity: 2, price: 84000, date: '2024-01-23', time: '14:15' },
-    { id: 'SALE_003', hospital: 'مستشفى الشيخ مسكين', bloodType: 'B+', quantity: 4, price: 140000, date: '2024-01-22', time: '09:45' },
-    { id: 'SALE_004', hospital: 'مستشفى ازرع', bloodType: 'AB+', quantity: 1, price: 45000, date: '2024-01-21', time: '16:20' },
-    { id: 'SALE_005', hospital: 'مستشفى النزهة', bloodType: 'A-', quantity: 2, price: 80000, date: '2024-01-20', time: '11:10' }
-  ]);
-
-  // التقارير
+  // حالة لتقارير المتبرعين المكتملين
+  const [completedDonors, setCompletedDonors] = useState([]);
+  
+  // التقارير الأساسية
   const [reports, setReports] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('الكل');
   const [dateRange, setDateRange] = useState({
-    start: '2024-01-01',
+    start: new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0],
     end: new Date().toISOString().split('T')[0]
   });
   const [activeReport, setActiveReport] = useState(null);
   const [reportPreview, setReportPreview] = useState(false);
 
-  // أنواع التقارير (بدون مبيعات)
-  const reportTypes = ['الكل', 'مخزون', 'متبرعين', 'طوارئ', 'جودة', 'مالي'];
+  // أنواع التقارير (اثنين فقط)
+  const reportTypes = ['الكل', 'مخزون', 'متبرعين'];
 
-  // === دوال توليد التقارير ===
-  const generateInventoryReport = () => {
-    const totalUnits = bloodInventory.reduce((sum, item) => sum + item.quantity, 0);
-    const lowStock = bloodInventory.filter(item => item.status === 'منخفض' || item.status === 'حرج').length;
-    const totalValue = bloodInventory.reduce((sum, item) => sum + (item.quantity * item.price), 0);
-    
-    return {
-      title: 'تقرير المخزون الشهري',
-      type: 'مخزون',
-      summary: {
-        'إجمالي الوحدات': totalUnits,
-        'فصائل الدم': bloodInventory.length,
-        'منخفض المخزون': lowStock,
-        'القيمة الإجمالية': `${totalValue.toLocaleString()} ل.س`,
-        'متوسط السعر': totalUnits > 0 ? `${Math.round(totalValue / totalUnits).toLocaleString()} ل.س` : '0 ل.س'
-      },
-      details: bloodInventory,
-      generatedAt: new Date().toLocaleString('ar-SA'),
-      recommendations: lowStock > 0 
-        ? `يوجد ${lowStock} فصيلة تحتاج تعزيز المخزون`
-        : 'المخزون في حالة جيدة'
-    };
-  };
-
-  const generateDonorsReport = () => {
-    const activeDonors = donorsData.filter(d => d.status === 'نشط').length;
-    const totalDonations = donorsData.reduce((sum, d) => sum + d.totalDonations, 0);
-    const recentDonors = donorsData.filter(d => 
-      new Date(d.lastDonation) > new Date(new Date().setDate(new Date().getDate() - 30))
-    ).length;
-
-    return {
-      title: 'تقرير المتبرعين',
-      type: 'متبرعين',
-      summary: {
-        'إجمالي المتبرعين': donorsData.length,
-        'متبرعين نشطين': activeDonors,
-        'إجمالي التبرعات': totalDonations,
-        'متبرعين حديثاً': recentDonors,
-        'متوسط التبرعات': donorsData.length > 0 ? (totalDonations / donorsData.length).toFixed(1) : '0'
-      },
-      details: donorsData,
-      generatedAt: new Date().toLocaleString('ar-SA')
-    };
-  };
-
-  // === تم إزالة generateMonthlySalesReport بالكامل ===
-
-  const generateEmergencyReport = () => {
-    const criticalStocks = bloodInventory.filter(item => item.status === 'حرج');
-    const lowStocks = bloodInventory.filter(item => item.status === 'منخفض');
-    const urgentNeeds = [...criticalStocks, ...lowStocks];
-    
-    return {
-      title: 'تقرير حالة الطوارئ',
-      type: 'طوارئ',
-      summary: {
-        'فصائل حرجة': criticalStocks.length,
-        'فصائل منخفضة': lowStocks.length,
-        'إجمالي العاجل': urgentNeeds.length,
-        'الفصائل الحرجة': criticalStocks.length > 0 
-          ? criticalStocks.map(s => s.type).join(', ')
-          : 'لا توجد فصائل حرجة'
-      },
-      details: urgentNeeds,
-      generatedAt: new Date().toLocaleString('ar-SA'),
-      recommendations: urgentNeeds.length > 0 
-        ? 'يجب اتخاذ إجراءات عاجلة لتعبئة المخزون المنخفض'
-        : 'لا توجد حالات طوارئ'
-    };
-  };
-
-  const generateQualityReport = () => {
-    const qualityChecks = [
-      { test: 'فحص HIV', passed: 100, total: 100, date: '2024-01-24' },
-      { test: 'فحص Hepatitis', passed: 99, total: 100, date: '2024-01-24' },
-      { test: 'فحص Syphilis', passed: 100, total: 100, date: '2024-01-23' },
-      { test: 'فحص الدم الكامل', passed: 98, total: 100, date: '2024-01-23' },
-      { test: 'فحص التخزين', passed: 100, total: 100, date: '2024-01-22' }
-    ];
-
-    const passRate = qualityChecks.reduce((sum, q) => sum + (q.passed / q.total), 0) / qualityChecks.length * 100;
-
-    return {
-      title: 'تقرير الجودة',
-      type: 'جودة',
-      summary: {
-        'إجمالي الفحوصات': qualityChecks.length,
-        'نسبة النجاح': `${passRate.toFixed(1)}%`,
-        'فحوصات فاشلة': qualityChecks.filter(q => q.passed < q.total).length,
-        'آخر تاريخ فحص': qualityChecks[0].date
-      },
-      details: qualityChecks,
-      generatedAt: new Date().toLocaleString('ar-SA'),
-      status: passRate >= 95 ? 'ممتاز' : 'مقبول'
-    };
-  };
-
-  const generateFinancialReport = () => {
-    const totalRevenue = salesData.reduce((sum, s) => sum + (s.price || 0), 0);
-    const expenses = {
-      salaries: 1500000,
-      equipment: 800000,
-      maintenance: 400000,
-      supplies: 300000,
-      other: 200000
-    };
-    const totalExpenses = Object.values(expenses).reduce((a, b) => a + b, 0);
-    const profit = totalRevenue - totalExpenses;
-
-    return {
-      title: 'التقرير المالي الشهري',
-      type: 'مالي',
-      summary: {
-        'الإيرادات الإجمالية': `${totalRevenue.toLocaleString()} ل.س`,
-        'المصروفات الإجمالية': `${totalExpenses.toLocaleString()} ل.س`,
-        'صافي الربح': `${profit.toLocaleString()} ل.س`,
-        'هامش الربح': totalRevenue > 0 ? `${((profit / totalRevenue) * 100).toFixed(1)}%` : '0%',
-        'متوسط الإيرادات اليومي': `${Math.round(totalRevenue / 30).toLocaleString()} ل.س`
-      },
-      revenueDetails: salesData,
-      expenseDetails: expenses,
-      generatedAt: new Date().toLocaleString('ar-SA')
-    };
-  };
-
-  // تهيئة التقارير تلقائياً
+  // تحميل بيانات المتبرعين المكتملين من localStorage
   useEffect(() => {
+    loadCompletedDonors();
+    initializeReports();
+  }, []);
+
+  const loadCompletedDonors = () => {
+    try {
+      const storedDonors = JSON.parse(localStorage.getItem('completed_donors_report') || '[]');
+      setCompletedDonors(storedDonors);
+    } catch (error) {
+      console.error('خطأ في تحميل المتبرعين المكتملين:', error);
+      setCompletedDonors([]);
+      localStorage.setItem('completed_donors_report', JSON.stringify([]));
+    }
+  };
+
+  const initializeReports = () => {
     const currentDate = new Date().toISOString().split('T')[0];
     const currentMonth = new Date().toLocaleString('ar-SA', { month: 'long', year: 'numeric' });
     
-    // توليد التقارير الأساسية فقط (بدون تقارير مبيعات)
-    const autoGeneratedReports = [
+    // التقارير الأساسية المتاحة حالياً
+    const initialReports = [
       {
         id: 'REPORT_INV_001',
-        title: 'تقرير المخزون الشهري',
+        title: 'تقرير المخزون',
         type: 'مخزون',
         period: currentMonth,
         generatedBy: 'النظام',
         date: currentDate,
         size: '1.2 MB',
         status: 'مكتمل',
-        isMonthlyReport: true,
+        icon: '🩸',
         data: generateInventoryReport()
       },
       {
@@ -204,75 +80,192 @@ const ReportsPage = () => {
         date: currentDate,
         size: '0.8 MB',
         status: 'مكتمل',
+        icon: '👥',
         data: generateDonorsReport()
-      },
-      // === تم إزالة تقرير المبيعات الشهري ===
-      {
-        id: 'REPORT_EMERG_001',
-        title: 'تقرير حالة الطوارئ',
-        type: 'طوارئ',
-        period: 'أخر تحديث',
-        generatedBy: 'النظام',
-        date: currentDate,
-        size: '0.5 MB',
-        status: 'مكتمل',
-        data: generateEmergencyReport()
-      },
-      {
-        id: 'REPORT_QUAL_001',
-        title: 'تقرير الجودة',
-        type: 'جودة',
-        period: 'ربع سنوي',
-        generatedBy: 'فريق الجودة',
-        date: currentDate,
-        size: '0.9 MB',
-        status: 'مكتمل',
-        data: generateQualityReport()
-      },
-      {
-        id: 'REPORT_FIN_001',
-        title: 'التقرير المالي الشهري',
-        type: 'مالي',
-        period: currentMonth,
-        generatedBy: 'الإدارة المالية',
-        date: currentDate,
-        size: '1.4 MB',
-        status: 'مكتمل',
-        data: generateFinancialReport()
       }
     ];
 
-    // تحميل التقارير المحفوظة من localStorage
-    const savedReports = JSON.parse(localStorage.getItem('bloodBankReports')) || [];
-    
-    // تصفية التقارير المحفوظة لإزالة أي تقارير مبيعات
-    const filteredSavedReports = savedReports.filter(report => report.type !== 'مبيعات');
-    
-    // دمج التقارير
-    const allReports = [
-      ...autoGeneratedReports,
-      ...filteredSavedReports
+    // التقارير المستقبلية (ستتاح لاحقاً)
+    const futureReports = [
+      {
+        id: 'REPORT_MONTHLY_001',
+        title: 'التقرير الشهري',
+        type: 'مخزون',
+        period: 'يناير 2024',
+        generatedBy: 'النظام',
+        date: '2024-01-31',
+        size: '2.1 MB',
+        status: 'تحت التطوير',
+        icon: '📅',
+        data: null,
+        available: false
+      },
+      {
+        id: 'REPORT_YEARLY_001',
+        title: 'التقرير السنوي',
+        type: 'مخزون',
+        period: '2024',
+        generatedBy: 'النظام',
+        date: '2024-12-31',
+        size: '3.5 MB',
+        status: 'تحت التطوير',
+        icon: '📊',
+        data: null,
+        available: false
+      },
+      {
+        id: 'REPORT_ANALYSIS_001',
+        title: 'تقرير التحليل الإحصائي',
+        type: 'متبرعين',
+        period: 'ربع سنوي',
+        generatedBy: 'النظام',
+        date: '2024-03-31',
+        size: '1.8 MB',
+        status: 'تحت التطوير',
+        icon: '📈',
+        data: null,
+        available: false
+      },
+      {
+        id: 'REPORT_COMPARE_001',
+        title: 'تقرير المقارنة',
+        type: 'مخزون',
+        period: 'شهري مقارن',
+        generatedBy: 'النظام',
+        date: '2024-02-29',
+        size: '1.5 MB',
+        status: 'تحت التطوير',
+        icon: '⚖️',
+        data: null,
+        available: false
+      }
     ];
-    
+
+    const allReports = [...initialReports, ...futureReports];
     setReports(allReports);
-
-    // حفظ التقارير في localStorage
     localStorage.setItem('bloodBankReports', JSON.stringify(allReports));
+  };
 
-  }, []);
+  // توليد تقرير المخزون
+  const generateInventoryReport = () => {
+    const totalUnits = bloodInventory.reduce((sum, item) => sum + item.quantity, 0);
+    const lowStock = bloodInventory.filter(item => item.status === 'منخفض' || item.status === 'حرج').length;
+    const totalValue = bloodInventory.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+    
+    const details = bloodInventory.map(item => ({
+      'فصيلة الدم': item.type,
+      'الكمية المتاحة': `${item.quantity} وحدة`,
+      'الحد الأدنى': `${item.minQuantity} وحدة`,
+      'الحالة': item.status,
+      'تاريخ التحديث': item.lastUpdated,
+      'السعر': `${item.price.toLocaleString()} ل.س`
+    }));
+
+    return {
+      title: 'تقرير المخزون',
+      summary: {
+        'إجمالي الوحدات': `${totalUnits} وحدة`,
+        'فصائل الدم': bloodInventory.length,
+        'منخفض المخزون': lowStock,
+        'القيمة الإجمالية': `${totalValue.toLocaleString()} ل.س`,
+        'متوسط السعر': totalUnits > 0 ? `${Math.round(totalValue / totalUnits).toLocaleString()} ل.س` : '0 ل.س'
+      },
+      details: details,
+      generatedAt: new Date().toLocaleString('ar-SA'),
+      recommendations: lowStock > 0 
+        ? `يوجد ${lowStock} فصيلة تحتاج تعزيز المخزون`
+        : 'المخزون في حالة جيدة'
+    };
+  };
+
+  // توليد تقرير المتبرعين
+  const generateDonorsReport = () => {
+    const totalDonors = completedDonors.length;
+    const today = new Date().toISOString().split('T')[0];
+    
+    // المتبرعين هذا الشهر
+    const thisMonthDonors = completedDonors.filter(donor => {
+      const donorDate = new Date(donor.appointmentDate || donor.completedAt);
+      const currentMonth = new Date().getMonth();
+      const currentYear = new Date().getFullYear();
+      return donorDate.getMonth() === currentMonth && donorDate.getFullYear() === currentYear;
+    }).length;
+
+    // تجميع حسب فصيلة الدم
+    const bloodTypeCounts = {};
+    completedDonors.forEach(donor => {
+      const type = donor.bloodType || 'غير معروف';
+      bloodTypeCounts[type] = (bloodTypeCounts[type] || 0) + 1;
+    });
+
+    // تفاصيل المتبرعين
+    const donorDetails = completedDonors.map((donor, index) => ({
+      'رقم': index + 1,
+      'اسم المتبرع': donor.name || 'غير معروف',
+      'رقم الهاتف': donor.phone || 'غير معروف',
+      'فصيلة الدم': donor.bloodType || 'غير معروف',
+      'تاريخ التبرع': donor.appointmentDate || 'غير معروف',
+      'نوع التبرع': donor.donationType || 'تبرع بالدم'
+    })).reverse();
+
+    return {
+      title: 'تقرير المتبرعين',
+      summary: {
+        'إجمالي المتبرعين': totalDonors,
+        'المتبرعين هذا الشهر': thisMonthDonors,
+        'أكثر فصيلة تبرعاً': Object.keys(bloodTypeCounts).length > 0 
+          ? Object.entries(bloodTypeCounts).sort((a, b) => b[1] - a[1])[0][0]
+          : 'لا توجد بيانات',
+        'آخر تبرع': completedDonors.length > 0 
+          ? completedDonors[completedDonors.length - 1].appointmentDate || 'غير معروف'
+          : 'لا توجد بيانات',
+        'متوسط التبرعات/شهر': thisMonthDonors > 0 ? thisMonthDonors : 0
+      },
+      details: donorDetails,
+      generatedAt: new Date().toLocaleString('ar-SA'),
+      recommendations: totalDonors > 0 
+        ? `تم تسجيل ${totalDonors} متبرع. ${thisMonthDonors} منهم هذا الشهر.`
+        : 'لا توجد بيانات عن المتبرعين'
+    };
+  };
 
   // تحديث التقارير
-  const refreshReports = () => {
-    // إعادة تحميل التقارير من localStorage
-    const savedReports = JSON.parse(localStorage.getItem('bloodBankReports')) || [];
-    const filteredReports = savedReports.filter(report => report.type !== 'مبيعات');
-    setReports(filteredReports);
+  const handleRefreshReports = () => {
+    loadCompletedDonors();
+    
+    const currentDate = new Date().toISOString().split('T')[0];
+    const currentMonth = new Date().toLocaleString('ar-SA', { month: 'long', year: 'numeric' });
+    
+    // تحديث التقارير المتاحة فقط
+    const updatedReports = reports.map(report => {
+      if (report.id === 'REPORT_INV_001' || report.id.startsWith('REPORT_INV_')) {
+        return {
+          ...report,
+          date: currentDate,
+          period: currentMonth,
+          data: generateInventoryReport()
+        };
+      }
+      if (report.id === 'REPORT_DON_001' || report.id.startsWith('REPORT_DON_')) {
+        return {
+          ...report,
+          date: currentDate,
+          period: 'حتى ' + currentDate,
+          data: generateDonorsReport()
+        };
+      }
+      return report;
+    });
+    
+    setReports(updatedReports);
+    localStorage.setItem('bloodBankReports', JSON.stringify(updatedReports));
+    
+    alert('✅ تم تحديث التقارير بنجاح!');
   };
 
   // تصفية التقارير
   const filteredReports = reports.filter(report => {
-    if (searchTerm && !report.title.toLowerCase().includes(searchTerm.toLowerCase()) && 
-        !report.type.toLowerCase().includes(searchTerm.toLowerCase())) {
+    if (searchTerm && !report.title.includes(searchTerm) && !report.type.includes(searchTerm)) {
       return false;
     }
     if (selectedType !== 'الكل' && report.type !== selectedType) {
@@ -284,137 +277,134 @@ const ReportsPage = () => {
     if (dateRange.end && new Date(report.date) > new Date(dateRange.end)) {
       return false;
     }
-    
     return true;
   });
 
   // إحصائيات
   const stats = {
-    totalReports: reports.length,
-    monthlyReports: reports.filter(r => r.isMonthlyReport).length,
-    thisMonth: reports.filter(r => {
-      const reportDate = new Date(r.date);
-      const today = new Date();
-      return reportDate.getMonth() === today.getMonth() && reportDate.getFullYear() === today.getFullYear();
-    }).length
+    totalReports: reports.filter(r => r.available !== false).length,
+    totalDonors: completedDonors.length,
+    todayDonors: completedDonors.filter(donor => 
+      donor.appointmentDate === new Date().toISOString().split('T')[0]
+    ).length,
+    totalBloodUnits: bloodInventory.reduce((sum, item) => sum + item.quantity, 0),
+    futureReports: reports.filter(r => r.available === false).length
   };
 
-  // تحديث البيانات يدويًا
-  const handleRefreshData = () => {
-    refreshReports();
-    alert('تم تحديث البيانات بنجاح!');
-  };
-
-  // ==================== أدوات التصدير الكاملة ====================
-
+  // ==================== أدوات التصدير ====================
   const exportToPDF = (report) => {
+    if (!report.data) {
+      alert('هذا التقرير غير متاح حالياً');
+      return;
+    }
+
+    const printWindow = window.open('', '_blank');
     const printContent = `
       <html dir="rtl">
         <head>
-          <title>${report.title} - PDF</title>
+          <title>${report.title}</title>
           <style>
-            @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
             body { 
               font-family: 'Cairo', sans-serif; 
-              padding: 30px; 
+              padding: 40px; 
               background: white;
               color: #333;
+              line-height: 1.6;
             }
-            .header {
-              text-align: center;
-              margin-bottom: 30px;
-              border-bottom: 3px solid #DC143C;
+            .header { 
+              text-align: center; 
+              margin-bottom: 40px;
               padding-bottom: 20px;
+              border-bottom: 3px solid #DC143C;
             }
-            .header h1 {
-              color: #DC143C;
+            .header h1 { 
+              color: #DC143C; 
               margin: 0 0 10px 0;
-              font-size: 28px;
+              font-size: 32px;
             }
-            .info-grid {
-              display: grid;
-              grid-template-columns: repeat(3, 1fr);
-              gap: 20px;
-              margin: 30px 0;
+            .info-grid { 
+              display: grid; 
+              grid-template-columns: repeat(2, 1fr); 
+              gap: 20px; 
+              margin: 30px 0; 
               background: #f8f9fa;
-              padding: 20px;
-              border-radius: 10px;
+              padding: 25px;
+              border-radius: 15px;
             }
-            .info-item {
-              text-align: center;
-            }
-            .info-label {
-              font-size: 14px;
-              color: #666;
-              margin-bottom: 5px;
-            }
-            .info-value {
-              font-size: 18px;
-              font-weight: bold;
-              color: #DC143C;
-            }
-            .summary-section {
-              margin: 30px 0;
-            }
-            .summary-section h2 {
-              color: #1E6BD6;
-              border-right: 4px solid #1E6BD6;
-              padding-right: 15px;
-              margin-bottom: 20px;
-            }
-            .summary-grid {
-              display: grid;
-              grid-template-columns: repeat(2, 1fr);
-              gap: 15px;
-            }
-            .summary-item {
-              background: white;
-              padding: 15px;
-              border: 1px solid #eee;
-              border-radius: 8px;
-            }
-            .summary-label {
-              font-size: 14px;
-              color: #666;
-            }
-            .summary-value {
-              font-size: 16px;
-              font-weight: bold;
-              color: #333;
-            }
-            .table-section {
-              margin: 30px 0;
-            }
-            table {
-              width: 100%;
-              border-collapse: collapse;
-              margin: 20px 0;
-            }
-            th {
-              background: #DC143C;
-              color: white;
-              padding: 12px;
-              text-align: right;
+            .info-item { text-align: center; }
+            .info-label { 
+              font-size: 14px; 
+              color: #666; 
+              margin-bottom: 8px;
               font-weight: 600;
             }
-            td {
-              padding: 10px;
-              border: 1px solid #ddd;
-              text-align: right;
+            .info-value { 
+              font-size: 18px; 
+              font-weight: 700; 
+              color: #DC143C;
             }
-            tr:nth-child(even) {
-              background: #f9f9f9;
+            .summary-section { margin: 40px 0; }
+            .summary-section h2 { 
+              color: #1E6BD6; 
+              border-right: 4px solid #1E6BD6;
+              padding-right: 15px; 
+              margin-bottom: 25px;
+              font-size: 24px;
             }
-            .footer {
-              text-align: center;
-              margin-top: 40px;
-              padding-top: 20px;
-              border-top: 1px solid #ddd;
-              color: #666;
+            .summary-grid { 
+              display: grid; 
+              grid-template-columns: repeat(2, 1fr); 
+              gap: 20px;
+            }
+            .summary-item { 
+              background: white; 
+              padding: 20px; 
+              border: 1px solid #eee; 
+              border-radius: 12px;
+              box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            }
+            .summary-label { 
+              font-size: 15px; 
+              color: #666; 
+              margin-bottom: 10px;
+              display: block;
+            }
+            .summary-value { 
+              font-size: 22px; 
+              font-weight: 700; 
+              color: #1E6BD6;
+            }
+            table { 
+              width: 100%; 
+              border-collapse: collapse; 
+              margin: 30px 0;
               font-size: 14px;
             }
-            @media print {
-              .no-print { display: none; }
+            th { 
+              background: #DC143C; 
+              color: white; 
+              padding: 15px; 
+              text-align: right; 
+              font-weight: 600;
+              border: 1px solid #fff;
+            }
+            td { 
+              padding: 12px 15px; 
+              border: 1px solid #ddd; 
+              text-align: right;
+            }
+            tr:nth-child(even) { background: #f9f9f9; }
+            .footer { 
+              text-align: center; 
+              margin-top: 50px; 
+              padding-top: 20px; 
+              border-top: 1px solid #ddd; 
+              color: #666; 
+              font-size: 14px;
+            }
+            @media print { 
+              .no-print { display: none; } 
               body { padding: 20px; }
             }
           </style>
@@ -422,8 +412,8 @@ const ReportsPage = () => {
         <body>
           <div class="header">
             <h1>${report.data.title}</h1>
-            <p>بنك الدم الوطني - درعا</p>
-            <p>تاريخ الإنشاء: ${report.data.generatedAt}</p>
+            <p style="color: #666; font-size: 16px;">بنك الدم المركزي - درعا</p>
+            <p style="color: #888; font-size: 14px;">تاريخ الإنشاء: ${report.data.generatedAt}</p>
           </div>
           
           <div class="info-grid">
@@ -435,10 +425,6 @@ const ReportsPage = () => {
               <div class="info-label">الفترة</div>
               <div class="info-value">${report.period}</div>
             </div>
-            <div class="info-item">
-              <div class="info-label">الحالة</div>
-              <div class="info-value">${report.status}</div>
-            </div>
           </div>
           
           <div class="summary-section">
@@ -446,15 +432,15 @@ const ReportsPage = () => {
             <div class="summary-grid">
               ${Object.entries(report.data.summary).map(([key, value]) => `
                 <div class="summary-item">
-                  <div class="summary-label">${key}</div>
-                  <div class="summary-value">${value}</div>
+                  <span class="summary-label">${key}</span>
+                  <span class="summary-value">${value}</span>
                 </div>
               `).join('')}
             </div>
           </div>
           
           ${report.data.details && report.data.details.length > 0 ? `
-            <div class="table-section">
+            <div class="summary-section">
               <h2>📋 التفاصيل</h2>
               <table>
                 <thead>
@@ -478,69 +464,49 @@ const ReportsPage = () => {
           ` : ''}
           
           ${report.data.recommendations ? `
-            <div class="summary-section">
-              <h2>💡 التوصيات</h2>
-              <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-right: 4px solid #ffc107;">
-                <p style="margin: 0; color: #856404; font-weight: 500;">
-                  ${report.data.recommendations}
-                </p>
-              </div>
+            <div style="background: #fff3cd; padding: 20px; border-radius: 10px; margin: 30px 0; border-right: 4px solid #ffc107;">
+              <h3 style="color: #856404; margin-top: 0;">💡 التوصيات</h3>
+              <p style="color: #856404; margin: 0;">${report.data.recommendations}</p>
             </div>
           ` : ''}
           
           <div class="footer">
             <p>تم إنشاء هذا التقرير بواسطة نظام إدارة بنك الدم</p>
-            <p>© ${new Date().getFullYear()} بنك الدم الوطني. جميع الحقوق محفوظة.</p>
+            <p>© ${new Date().getFullYear()} بنك الدم المركزي - درعا. جميع الحقوق محفوظة.</p>
           </div>
           
-          <div class="no-print" style="text-align: center; margin-top: 30px;">
+          <div class="no-print" style="text-align: center; margin-top: 40px;">
             <button onclick="window.print()" style="
-              padding: 12px 30px;
+              padding: 15px 40px;
               background: #DC143C;
               color: white;
               border: none;
-              border-radius: 5px;
+              border-radius: 8px;
               font-size: 16px;
               cursor: pointer;
               margin: 10px;
+              font-family: 'Cairo', sans-serif;
             ">
               🖨️ طباعة التقرير
             </button>
-            <button onclick="window.close()" style="
-              padding: 12px 30px;
-              background: #6c757d;
-              color: white;
-              border: none;
-              border-radius: 5px;
-              font-size: 16px;
-              cursor: pointer;
-              margin: 10px;
-            ">
-              ✕ إغلاق
-            </button>
           </div>
-          
-          <script>
-            window.onload = function() {
-              setTimeout(() => {
-                window.print();
-              }, 1000);
-            }
-          </script>
         </body>
       </html>
     `;
     
-    const printWindow = window.open('', '_blank');
     printWindow.document.write(printContent);
     printWindow.document.close();
-    
-    alert(`تم إنشاء ${report.title} جاهز للطباعة/الحفظ كـ PDF`);
   };
 
   const exportToExcel = (report) => {
+    if (!report.data) {
+      alert('هذا التقرير غير متاح حالياً');
+      return;
+    }
+
     const wsData = [
-      [report.data.title],
+      [report.title],
+      [`بنك الدم المركزي - درعا`],
       [`تاريخ الإنشاء: ${report.data.generatedAt}`],
       [`النوع: ${report.type}`],
       [`الفترة: ${report.period}`],
@@ -557,14 +523,11 @@ const ReportsPage = () => {
     }
 
     const ws = XLSX.utils.aoa_to_sheet(wsData);
-    
-    // تنسيق الخلايا
     const wscols = [
       { wch: 20 },
       { wch: 25 },
-      { wch: 15 },
-      { wch: 15 },
-      { wch: 15 },
+      { wch: 20 },
+      { wch: 20 },
       { wch: 15 }
     ];
     ws['!cols'] = wscols;
@@ -573,12 +536,18 @@ const ReportsPage = () => {
     XLSX.utils.book_append_sheet(wb, ws, 'تقرير');
     
     XLSX.writeFile(wb, `${report.title}.xlsx`);
-    alert(`تم تصدير ${report.title} كـ Excel`);
+    alert(`تم تصدير ${report.title} كملف Excel`);
   };
 
   const exportToCSV = (report) => {
+    if (!report.data) {
+      alert('هذا التقرير غير متاح حالياً');
+      return;
+    }
+
     const csvData = [
-      ['تقرير', report.data.title],
+      ['تقرير', report.title],
+      ['بنك الدم المركزي - درعا'],
       ['تاريخ الإنشاء', report.data.generatedAt],
       ['النوع', report.type],
       ['الفترة', report.period],
@@ -604,44 +573,78 @@ const ReportsPage = () => {
     link.download = `${report.title}.csv`;
     link.click();
     
-    alert(`تم تصدير ${report.title} كـ CSV`);
+    alert(`تم تصدير ${report.title} كملف CSV`);
   };
 
   const printReport = (report) => {
+    if (!report.data) {
+      alert('هذا التقرير غير متاح حالياً');
+      return;
+    }
+
     const printWindow = window.open('', '_blank');
     printWindow.document.write(`
       <html dir="rtl">
         <head>
           <title>${report.title}</title>
           <style>
-            body { font-family: 'Cairo', Arial, sans-serif; padding: 20px; }
-            h1 { color: #DC143C; text-align: center; border-bottom: 3px solid #DC143C; padding-bottom: 10px; }
-            .info { background: #f8f9fa; padding: 15px; margin: 20px 0; border-radius: 8px; }
-            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-            th, td { border: 1px solid #ddd; padding: 10px; text-align: right; }
-            th { background: #DC143C; color: white; }
-            .summary { margin: 30px 0; }
-            .summary-item { margin: 10px 0; }
+            @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap');
+            body { 
+              font-family: 'Cairo', sans-serif; 
+              padding: 30px; 
+              background: white;
+              color: #333;
+              line-height: 1.6;
+            }
+            .header { 
+              text-align: center; 
+              margin-bottom: 30px;
+              padding-bottom: 15px;
+              border-bottom: 3px solid #DC143C;
+            }
+            .header h1 { 
+              color: #DC143C; 
+              margin: 0 0 10px 0;
+              font-size: 28px;
+            }
+            table { 
+              width: 100%; 
+              border-collapse: collapse; 
+              margin: 20px 0;
+              font-size: 14px;
+            }
+            th { 
+              background: #DC143C; 
+              color: white; 
+              padding: 12px; 
+              text-align: right; 
+              font-weight: 600;
+              border: 1px solid #fff;
+            }
+            td { 
+              padding: 10px 12px; 
+              border: 1px solid #ddd; 
+              text-align: right;
+            }
+            tr:nth-child(even) { background: #f9f9f9; }
             @media print { 
               button { display: none; } 
-              body { padding: 10px; }
+              body { padding: 15px; }
             }
           </style>
         </head>
         <body>
-          <h1>${report.data.title}</h1>
-          
-          <div class="info">
-            <p><strong>تاريخ الإنشاء:</strong> ${report.data.generatedAt}</p>
-            <p><strong>النوع:</strong> ${report.type}</p>
-            <p><strong>الفترة:</strong> ${report.period}</p>
+          <div class="header">
+            <h1>${report.data.title}</h1>
+            <p style="color: #666; font-size: 14px;">بنك الدم المركزي - درعا</p>
+            <p style="color: #888; font-size: 12px;">تاريخ الإنشاء: ${report.data.generatedAt}</p>
           </div>
           
-          <div class="summary">
-            <h3>الملخص</h3>
-            ${Object.entries(report.data.summary).map(([key, value]) => 
-              `<div class="summary-item"><strong>${key}:</strong> ${value}</div>`
-            ).join('')}
+          <div style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+            <h3 style="color: #1E6BD6; margin-top: 0;">ملخص التقرير</h3>
+            ${Object.entries(report.data.summary).map(([key, value]) => `
+              <p style="margin: 8px 0;"><strong>${key}:</strong> ${value}</p>
+            `).join('')}
           </div>
           
           ${report.data.details && report.data.details.length > 0 ? `
@@ -649,13 +652,17 @@ const ReportsPage = () => {
             <table>
               <thead>
                 <tr>
-                  ${Object.keys(report.data.details[0]).map(key => `<th>${key}</th>`).join('')}
+                  ${Object.keys(report.data.details[0]).map(key => 
+                    `<th>${key}</th>`
+                  ).join('')}
                 </tr>
               </thead>
               <tbody>
                 ${report.data.details.map(item => `
                   <tr>
-                    ${Object.values(item).map(val => `<td>${val}</td>`).join('')}
+                    ${Object.values(item).map(val => 
+                      `<td>${val}</td>`
+                    ).join('')}
                   </tr>
                 `).join('')}
               </tbody>
@@ -664,13 +671,14 @@ const ReportsPage = () => {
           
           <div style="text-align: center; margin-top: 40px;">
             <button onclick="window.print()" style="
-              padding: 10px 30px;
+              padding: 12px 30px;
               background: #DC143C;
               color: white;
               border: none;
-              border-radius: 5px;
-              font-size: 16px;
+              border-radius: 6px;
+              font-size: 14px;
               cursor: pointer;
+              font-family: 'Cairo', sans-serif;
             ">
               🖨️ طباعة التقرير
             </button>
@@ -682,7 +690,12 @@ const ReportsPage = () => {
   };
 
   const emailReport = (report) => {
-    const emailSubject = encodeURIComponent(`${report.title} - بنك الدم الوطني`);
+    if (!report.data) {
+      alert('هذا التقرير غير متاح حالياً');
+      return;
+    }
+
+    const emailSubject = encodeURIComponent(`${report.title} - بنك الدم المركزي - درعا`);
     const emailBody = encodeURIComponent(`
 التقرير: ${report.data.title}
 تاريخ الإنشاء: ${report.data.generatedAt}
@@ -694,17 +707,50 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
 
 ---
 تم إنشاء هذا التقرير بواسطة نظام إدارة بنك الدم
-بنك الدم الوطني
+بنك الدم المركزي - درعا
 © ${new Date().getFullYear()} جميع الحقوق محفوظة.
     `);
     
     window.location.href = `mailto:?subject=${emailSubject}&body=${emailBody}`;
   };
 
-  // === معاينة التقرير ===
+  // معاينة التقرير
   const previewReport = (report) => {
     setActiveReport(report);
     setReportPreview(true);
+  };
+
+  // معاينة التقرير - إجراءات تصدير
+  const handleExportAction = (action) => {
+    if (!activeReport) {
+      alert('يرجى اختيار تقرير أولاً');
+      return;
+    }
+
+    if (!activeReport.data) {
+      alert('هذا التقرير غير متاح حالياً');
+      return;
+    }
+
+    switch(action) {
+      case 'pdf':
+        exportToPDF(activeReport);
+        break;
+      case 'excel':
+        exportToExcel(activeReport);
+        break;
+      case 'csv':
+        exportToCSV(activeReport);
+        break;
+      case 'print':
+        printReport(activeReport);
+        break;
+      case 'email':
+        emailReport(activeReport);
+        break;
+      default:
+        alert('إجراء غير معروف');
+    }
   };
 
   return (
@@ -715,12 +761,12 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
         {/* Header */}
         <div className="reports-header">
           <div>
-            <h1 className="page-title">📊 التقارير والإحصائيات</h1>
-            <p className="page-subtitle">نظام التقارير الشهرية - تقارير المخزون والمتبرعين والمالية والجودة</p>
+            <h1 className="page-title">📊 التقارير</h1>
+            <p className="page-subtitle">إدارة التقارير المتاحة والمستقبلية</p>
           </div>
           <div className="header-actions">
-            <button className="btn btn-secondary" onClick={handleRefreshData}>
-              <span>🔄</span> تحديث البيانات
+            <button className="btn btn-secondary" onClick={handleRefreshReports}>
+              <span>🔄</span> تحديث التقارير
             </button>
           </div>
         </div>
@@ -728,24 +774,31 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
         {/* Stats */}
         <div className="reports-stats">
           <div className="stat-card">
-            <div className="stat-icon" style={{ backgroundColor: '#3B82F6' }}>📈</div>
+            <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #DC143C, #FF6B6B)' }}>📈</div>
             <div className="stat-content">
               <div className="stat-value">{stats.totalReports}</div>
-              <div className="stat-label">إجمالي التقارير</div>
+              <div className="stat-label">تقارير متاحة</div>
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon" style={{ backgroundColor: '#10B981' }}>📅</div>
+            <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #1E6BD6, #60A5FA)' }}>🩸</div>
             <div className="stat-content">
-              <div className="stat-value">{stats.monthlyReports}</div>
-              <div className="stat-label">تقارير شهرية</div>
+              <div className="stat-value">{stats.totalBloodUnits}</div>
+              <div className="stat-label">وحدات الدم</div>
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon" style={{ backgroundColor: '#F59E0B' }}>✅</div>
+            <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #10B981, #34D399)' }}>👥</div>
             <div className="stat-content">
-              <div className="stat-value">{stats.thisMonth}</div>
-              <div className="stat-label">هذا الشهر</div>
+              <div className="stat-value">{stats.totalDonors}</div>
+              <div className="stat-label">متبرعين مكتملين</div>
+            </div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-icon" style={{ background: 'linear-gradient(135deg, #F59E0B, #FBBF24)' }}>🚀</div>
+            <div className="stat-content">
+              <div className="stat-value">{stats.futureReports}</div>
+              <div className="stat-label">تقارير مستقبلية</div>
             </div>
           </div>
         </div>
@@ -800,7 +853,7 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
             setSearchTerm('');
             setSelectedType('الكل');
             setDateRange({
-              start: '2024-01-01',
+              start: new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0],
               end: new Date().toISOString().split('T')[0]
             });
           }}>
@@ -811,9 +864,9 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
         {/* Reports Table */}
         <div className="reports-table-container">
           <div className="table-header">
-            <h3>📁 التقارير المتاحة</h3>
+            <h3>📁 التقارير المتاحة والمستقبلية</h3>
             <div className="table-summary">
-              <span>عرض {filteredReports.length} تقرير</span>
+              <span>عرض {filteredReports.length} من {reports.length} تقرير</span>
             </div>
           </div>
           
@@ -825,26 +878,34 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
                   <th>النوع</th>
                   <th>الفترة</th>
                   <th>التاريخ</th>
-                  <th>الحجم</th>
+                  <th>الحالة</th>
                   <th>الإجراءات</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredReports.map((report) => (
-                  <tr key={report.id} className={`main-report-row ${report.isMonthlyReport ? 'monthly-report' : ''}`}>
+                  <tr key={report.id} className={report.available === false ? 'future-report-row' : ''}>
                     <td>
                       <div className="report-title-cell">
-                        <div className="report-icon-small">
-                          {report.type === 'مخزون' ? '🩸' : 
-                           report.type === 'متبرعين' ? '👥' : 
-                           report.type === 'طوارئ' ? '🚨' : 
-                           report.type === 'جودة' ? '⭐' : '💳'}
+                        <div className="report-icon-small" style={{
+                          background: report.available === false ? '#6B7280' : 
+                                    report.type === 'مخزون' ? '#DC143C' : '#1E6BD6'
+                        }}>
+                          {report.icon}
                         </div>
                         <div>
                           <div className="report-name">
                             {report.title}
+                            {report.available === false && (
+                              <span className="future-badge">🚀 قادم</span>
+                            )}
                           </div>
                           <div className="report-id">ID: {report.id}</div>
+                          {report.type === 'متبرعين' && report.data && (
+                            <div className="report-desc" style={{ fontSize: '12px', color: '#10B981', marginTop: '3px' }}>
+                              عدد المتبرعين: {completedDonors.length}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </td>
@@ -860,31 +921,38 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
                       <div className="report-date">{report.date}</div>
                     </td>
                     <td>
-                      <div className="report-size">{report.size}</div>
+                      <div className={`status-badge ${report.status === 'تحت التطوير' ? 'status-development' : 'status-completed'}`}>
+                        {report.status}
+                      </div>
                     </td>
                     <td>
                       <div className="report-actions">
-                        <button 
-                          className="action-btn view-btn"
-                          onClick={() => previewReport(report)}
-                          title="معاينة"
-                        >
-                          👁️
-                        </button>
-                        <button 
-                          className="action-btn download-btn"
-                          onClick={() => exportToPDF(report)}
-                          title="PDF"
-                        >
-                          📄
-                        </button>
-                        <button 
-                          className="action-btn excel-btn"
-                          onClick={() => exportToExcel(report)}
-                          title="Excel"
-                        >
-                          📊
-                        </button>
+                        {report.available === false ? (
+                          <button 
+                            className="action-btn disabled-btn"
+                            title="غير متاح حالياً"
+                            style={{ opacity: 0.5, cursor: 'not-allowed' }}
+                          >
+                            🔒
+                          </button>
+                        ) : (
+                          <>
+                            <button 
+                              className="action-btn view-btn"
+                              onClick={() => previewReport(report)}
+                              title="معاينة"
+                            >
+                              👁️
+                            </button>
+                            <button 
+                              className="action-btn download-btn"
+                              onClick={() => exportToPDF(report)}
+                              title="PDF"
+                            >
+                              📄
+                            </button>
+                          </>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -895,15 +963,11 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
         </div>
 
         {/* معاينة التقرير */}
-        {reportPreview && activeReport && (
+        {reportPreview && activeReport && activeReport.data && (
           <div className="report-preview-modal">
             <div className="preview-header">
               <h3>
-                {activeReport.type === 'مخزون' ? '🩸' : 
-                 activeReport.type === 'متبرعين' ? '👥' : 
-                 activeReport.type === 'طوارئ' ? '🚨' : 
-                 activeReport.type === 'جودة' ? '⭐' : '💳'}
-                {activeReport.title}
+                {activeReport.icon} {activeReport.title}
               </h3>
               <button className="close-btn" onClick={() => setReportPreview(false)}>✕</button>
             </div>
@@ -919,15 +983,13 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
                   <span className="info-value">{activeReport.period}</span>
                 </div>
                 <div className="info-item">
-                  <span className="info-label">نوع التقرير:</span>
-                  <span className="info-value">
-                    {activeReport.isMonthlyReport ? 'شهري' : activeReport.type}
-                  </span>
+                  <span className="info-label">الحالة:</span>
+                  <span className="info-value status-completed">مكتمل</span>
                 </div>
               </div>
               
               <div className="report-summary">
-                <h4>📋 ملخص التقرير</h4>
+                <h4>📊 ملخص التقرير</h4>
                 <div className="summary-grid">
                   {Object.entries(activeReport.data.summary).map(([key, value]) => (
                     <div key={key} className="summary-item">
@@ -938,9 +1000,9 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
                 </div>
               </div>
               
-              {activeReport.data.details && activeReport.data.details.length > 0 && (
+              {activeReport.data.details && activeReport.data.details.length > 0 ? (
                 <div className="report-details">
-                  <h4>📊 التفاصيل</h4>
+                  <h4>📋 التفاصيل</h4>
                   <div className="details-table">
                     <table>
                       <thead>
@@ -961,6 +1023,15 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
                       </tbody>
                     </table>
                   </div>
+                  <p className="table-summary">
+                    عرض {activeReport.data.details.length} سجل
+                  </p>
+                </div>
+              ) : (
+                <div className="no-data-message" style={{ textAlign: 'center', padding: '40px 20px', color: '#6B7280' }}>
+                  <div style={{ fontSize: '48px', marginBottom: '20px' }}>📭</div>
+                  <h4 style={{ margin: '0 0 10px 0' }}>لا توجد بيانات</h4>
+                  <p style={{ margin: 0 }}>لا توجد سجلات متاحة في هذا التقرير</p>
                 </div>
               )}
               
@@ -974,20 +1045,20 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
             
             <div className="preview-footer">
               <div className="export-buttons">
-                <button className="export-btn" onClick={() => exportToPDF(activeReport)}>
-                  <span>📄</span> PDF
+                <button className="export-btn" onClick={() => handleExportAction('pdf')}>
+                  <span>📄</span> تصدير PDF
                 </button>
-                <button className="export-btn" onClick={() => exportToExcel(activeReport)}>
-                  <span>📊</span> Excel
+                <button className="export-btn" onClick={() => handleExportAction('excel')}>
+                  <span>📊</span> تصدير Excel
                 </button>
-                <button className="export-btn" onClick={() => exportToCSV(activeReport)}>
-                  <span>📑</span> CSV
+                <button className="export-btn" onClick={() => handleExportAction('csv')}>
+                  <span>📑</span> تصدير CSV
                 </button>
-                <button className="export-btn" onClick={() => printReport(activeReport)}>
-                  <span>🖨️</span> طباعة
+                <button className="export-btn" onClick={() => handleExportAction('print')}>
+                  <span>🖨️</span> طباعة مباشرة
                 </button>
-                <button className="export-btn" onClick={() => emailReport(activeReport)}>
-                  <span>📧</span> بريد إلكتروني
+                <button className="export-btn" onClick={() => handleExportAction('email')}>
+                  <span>📧</span> إرسال بالبريد
                 </button>
               </div>
             </div>
@@ -1006,10 +1077,7 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
               </div>
               <h4>تصدير PDF</h4>
               <p>حفظ التقرير بصيغة PDF جاهزة للطباعة</p>
-              <button className="tool-btn" onClick={() => {
-                if (activeReport) exportToPDF(activeReport);
-                else alert('يرجى اختيار تقرير أولاً من الجدول أعلاه');
-              }}>
+              <button className="tool-btn" onClick={() => handleExportAction('pdf')}>
                 استخدام الأداة
               </button>
             </div>
@@ -1020,10 +1088,7 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
               </div>
               <h4>تصدير Excel</h4>
               <p>تصدير البيانات بصيغة Excel للتحليل</p>
-              <button className="tool-btn" onClick={() => {
-                if (activeReport) exportToExcel(activeReport);
-                else alert('يرجى اختيار تقرير أولاً من الجدول أعلاه');
-              }}>
+              <button className="tool-btn" onClick={() => handleExportAction('excel')}>
                 استخدام الأداة
               </button>
             </div>
@@ -1034,10 +1099,7 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
               </div>
               <h4>تصدير CSV</h4>
               <p>حفظ البيانات بصيغة CSV للبرامج الأخرى</p>
-              <button className="tool-btn" onClick={() => {
-                if (activeReport) exportToCSV(activeReport);
-                else alert('يرجى اختيار تقرير أولاً من الجدول أعلاه');
-              }}>
+              <button className="tool-btn" onClick={() => handleExportAction('csv')}>
                 استخدام الأداة
               </button>
             </div>
@@ -1048,10 +1110,7 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
               </div>
               <h4>طباعة مباشرة</h4>
               <p>طباعة التقرير مباشرة من المتصفح</p>
-              <button className="tool-btn" onClick={() => {
-                if (activeReport) printReport(activeReport);
-                else alert('يرجى اختيار تقرير أولاً من الجدول أعلاه');
-              }}>
+              <button className="tool-btn" onClick={() => handleExportAction('print')}>
                 استخدام الأداة
               </button>
             </div>
@@ -1062,12 +1121,40 @@ ${Object.entries(report.data.summary).map(([key, value]) => `• ${key}: ${value
               </div>
               <h4>إرسال بالبريد</h4>
               <p>إرسال التقرير عبر البريد الإلكتروني</p>
-              <button className="tool-btn" onClick={() => {
-                if (activeReport) emailReport(activeReport);
-                else alert('يرجى اختيار تقرير أولاً من الجدول أعلاه');
-              }}>
+              <button className="tool-btn" onClick={() => handleExportAction('email')}>
                 استخدام الأداة
               </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Information Section */}
+        <div className="info-card" style={{ 
+          background: 'linear-gradient(135deg, #F0F9FF, #E0F2FE)', 
+          borderRight: '4px solid #0EA5E9',
+          padding: '25px',
+          borderRadius: '15px',
+          marginTop: '30px'
+        }}>
+          <h4 style={{ color: '#0369A1', margin: '0 0 15px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            ℹ️ معلومات عن التقارير
+          </h4>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            <div>
+              <h5 style={{ color: '#0EA5E9', margin: '0 0 10px 0' }}>✅ التقارير المتاحة:</h5>
+              <ul style={{ margin: 0, paddingRight: '20px', color: '#0369A1', fontSize: '14px' }}>
+                <li>تقرير المخزون - تحديث فوري</li>
+                <li>تقرير المتبرعين - من المواعيد المكتملة</li>
+              </ul>
+            </div>
+            <div>
+              <h5 style={{ color: '#F59E0B', margin: '0 0 10px 0' }}>🚀 التقارير المستقبلية:</h5>
+              <ul style={{ margin: 0, paddingRight: '20px', color: '#92400E', fontSize: '14px' }}>
+                <li>التقرير الشهري - قيد التطوير</li>
+                <li>التقرير السنوي - قيد التطوير</li>
+                <li>تقرير التحليل الإحصائي - قيد التطوير</li>
+                <li>تقرير المقارنة - قيد التطوير</li>
+              </ul>
             </div>
           </div>
         </div>

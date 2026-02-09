@@ -742,3 +742,212 @@
     font-size: 24px;
   }
 }
+/* AppointmentsPage.css - إضافات */
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.quick-actions-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+.quick-actions-bar .btn {
+  flex: 1;
+  padding: 1rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+}
+
+.empty-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  color: #dee2e6;
+}
+
+.empty-message h4 {
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+.empty-message p {
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  transition: transform 0.2s;
+}
+
+.action-btn:hover {
+  transform: scale(1.2);
+}
+
+.info-btn { color: #3498db; }
+.confirm-btn { color: #2ecc71; }
+.reminder-btn { color: #f39c12; }
+.cancel-btn { color: #e74c3c; }
+.delete-btn { color: #7f8c8d; }
+
+.donor-age {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.blood-badge-small {
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  min-width: 50px;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.upcoming-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-left: 4px solid #3498db;
+}
+
+.upcoming-time {
+  text-align: center;
+  min-width: 80px;
+}
+
+.upcoming-time .time {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #3498db;
+}
+
+.upcoming-time .date {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.upcoming-info {
+  flex: 1;
+  margin: 0 1rem;
+}
+
+.upcoming-info .donor-name {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.donor-details {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.blood-type {
+  background: #e74c3c;
+  color: white;
+  padding: 0.1rem 0.5rem;
+  border-radius: 10px;
+}
+
+.appointment-type {
+  background: #f39c12;
+  color: white;
+  padding: 0.1rem 0.5rem;
+  border-radius: 10px;
+}
+
+.upcoming-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .appointments-filters {
+    flex-direction: column;
+  }
+  
+  .filter-group {
+    width: 100%;
+  }
+  
+  .appointment-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .upcoming-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .upcoming-time {
+    margin-bottom: 1rem;
+  }
+  
+  .upcoming-actions {
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

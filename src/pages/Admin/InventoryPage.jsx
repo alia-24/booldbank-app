@@ -2,111 +2,79 @@
 import React, { useState } from 'react';
 import Header from '../../components/layout/Header';
 import '../../styles/inventory.css';
+import '../../styles/main.css';
 
 const InventoryPage = () => {
   // بيانات المخزون - الأسعار بالليرة السورية
   const [inventory, setInventory] = useState([
-    { id: 1, bloodType: 'A+', quantity: 45, minQuantity: 20, status: 'جيد', lastUpdated: '2024-01-24', price: 35000 },
-    { id: 2, bloodType: 'A-', quantity: 15, minQuantity: 20, status: 'منخفض', lastUpdated: '2024-01-24', price: 40000 },
-    { id: 3, bloodType: 'B+', quantity: 38, minQuantity: 20, status: 'جيد', lastUpdated: '2024-01-23', price: 35000 },
-    { id: 4, bloodType: 'B-', quantity: 22, minQuantity: 20, status: 'جيد', lastUpdated: '2024-01-23', price: 40000 },
-    { id: 5, bloodType: 'AB+', quantity: 12, minQuantity: 15, status: 'حرج', lastUpdated: '2024-01-22', price: 45000 },
-    { id: 6, bloodType: 'AB-', quantity: 8, minQuantity: 15, status: 'حرج', lastUpdated: '2024-01-22', price: 50000 },
-    { id: 7, bloodType: 'O+', quantity: 62, minQuantity: 25, status: 'ممتاز', lastUpdated: '2024-01-24', price: 30000 },
-    { id: 8, bloodType: 'O-', quantity: 29, minQuantity: 20, status: 'جيد', lastUpdated: '2024-01-24', price: 42000 }
+    // فصائل الدم
+    { id: 1, type: 'blood', bloodType: 'A+', quantity: 45, minQuantity: 20, status: 'جيد', lastUpdated: '2024-01-24', price: 35000 },
+    { id: 2, type: 'blood', bloodType: 'A-', quantity: 15, minQuantity: 20, status: 'منخفض', lastUpdated: '2024-01-24', price: 40000 },
+    { id: 3, type: 'blood', bloodType: 'B+', quantity: 38, minQuantity: 20, status: 'جيد', lastUpdated: '2024-01-23', price: 35000 },
+    { id: 4, type: 'blood', bloodType: 'B-', quantity: 22, minQuantity: 20, status: 'جيد', lastUpdated: '2024-01-23', price: 40000 },
+    { id: 5, type: 'blood', bloodType: 'AB+', quantity: 12, minQuantity: 15, status: 'حرج', lastUpdated: '2024-01-22', price: 45000 },
+    { id: 6, type: 'blood', bloodType: 'AB-', quantity: 8, minQuantity: 15, status: 'حرج', lastUpdated: '2024-01-22', price: 50000 },
+    { id: 7, type: 'blood', bloodType: 'O+', quantity: 62, minQuantity: 25, status: 'ممتاز', lastUpdated: '2024-01-24', price: 30000 },
+    { id: 8, type: 'blood', bloodType: 'O-', quantity: 29, minQuantity: 20, status: 'جيد', lastUpdated: '2024-01-24', price: 42000 },
+    
+    // بلازما
+    { id: 9, type: 'plasma', bloodType: 'بلازما A+', quantity: 25, minQuantity: 15, status: 'جيد', lastUpdated: '2024-01-24', price: 25000 },
+    { id: 10, type: 'plasma', bloodType: 'بلازما O+', quantity: 40, minQuantity: 20, status: 'ممتاز', lastUpdated: '2024-01-24', price: 22000 },
+    { id: 11, type: 'plasma', bloodType: 'بلازما AB', quantity: 8, minQuantity: 10, status: 'منخفض', lastUpdated: '2024-01-23', price: 30000 },
+    
+    // صفيحات
+    { id: 12, type: 'platelets', bloodType: 'صفيحات A+', quantity: 18, minQuantity: 12, status: 'جيد', lastUpdated: '2024-01-24', price: 40000 },
+    { id: 13, type: 'platelets', bloodType: 'صفيحات O+', quantity: 32, minQuantity: 15, status: 'ممتاز', lastUpdated: '2024-01-24', price: 35000 },
+    { id: 14, type: 'platelets', bloodType: 'صفيحات B+', quantity: 12, minQuantity: 10, status: 'جيد', lastUpdated: '2024-01-23', price: 40000 },
   ]);
 
   // بيانات الحركات - محسنة مع أنواع مختلفة
   const [transactions, setTransactions] = useState([
     { 
       id: 1, 
-      type: 'إضافة مخزون', 
+      type: 'تبرع دم', 
       bloodType: 'A+', 
       quantity: 5, 
       source: 'تبرع طوعي', 
       date: '10:30 - 2024-01-24', 
       user: 'أحمد محمد',
+      donorName: 'محمد علي',
       icon: '🩸',
       color: '#10B981',
       status: 'مكتمل'
     },
     { 
       id: 2, 
-      type: 'تبرع', 
-      bloodType: 'O+', 
+      type: 'تبرع بلازما', 
+      bloodType: 'بلازما O+', 
       quantity: 3, 
-      source: 'مستشفى درعا الوطني', 
+      source: 'تبرع مؤسسي', 
       date: '09:15 - 2024-01-24', 
       user: 'محمد أحمد',
-      icon: '❤️',
-      color: '#EF4444',
+      donorName: 'سارة خالد',
+      icon: '💧',
+      color: '#3B82F6',
       status: 'مكتمل'
     },
     { 
       id: 3, 
-      type: 'إضافة مخزون', 
-      bloodType: 'B-', 
-      quantity: 10, 
-      source: 'تبرع مؤسسي', 
+      type: 'تبرع صفيحات', 
+      bloodType: 'صفيحات A+', 
+      quantity: 2, 
+      source: 'تبرع طوعي', 
       date: '16:45 - 2024-01-23', 
       user: 'مشرف النظام',
-      icon: '🩸',
-      color: '#10B981',
-      status: 'مكتمل'
-    },
-    { 
-      id: 4, 
-      type: 'نقل', 
-      bloodType: 'AB+', 
-      quantity: 2, 
-      source: 'مستشفى الصنمين', 
-      date: '14:20 - 2024-01-23', 
-      user: 'سارة خالد',
-      icon: '🚚',
-      color: '#3B82F6',
-      status: 'معلق'
-    },
-    { 
-      id: 5, 
-      type: 'تبرع', 
-      bloodType: 'A-', 
-      quantity: 4, 
-      source: 'مستشفى الشيخ مسكين', 
-      date: '11:10 - 2024-01-22', 
-      user: 'مشرف النظام',
-      icon: '❤️',
-      color: '#EF4444',
-      status: 'مكتمل'
-    },
-    { 
-      id: 6, 
-      type: 'تحديث', 
-      bloodType: 'B+', 
-      quantity: 8, 
-      source: 'جرد روتيني', 
-      date: '09:00 - 2024-01-22', 
-      user: 'فريق الجودة',
-      icon: '📝',
+      donorName: 'علي حسن',
+      icon: '🩹',
       color: '#8B5CF6',
       status: 'مكتمل'
     },
-    { 
-      id: 7, 
-      type: 'فحص', 
-      bloodType: 'O-', 
-      quantity: 15, 
-      source: 'مختبر الجودة', 
-      date: '15:30 - 2024-01-21', 
-      user: 'تقني المختبر',
-      icon: '🔬',
-      color: '#EC4899',
-      status: 'مكتمل'
-    }
   ]);
 
   // حالة للبحث والتصفية
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [typeFilter, setTypeFilter] = useState('all');
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedBlood, setSelectedBlood] = useState(null);
   const [timeFilter, setTimeFilter] = useState('all');
@@ -116,116 +84,15 @@ const InventoryPage = () => {
     bloodType: 'A+',
     quantity: 0,
     source: 'donation',
+    donorName: '',
     notes: ''
   });
-
-  // ================================================
-  // 🔧 **الدوال الجديدة المضافة للربط مع صفحة البيع**
-  // ================================================
-
-  // 🔧 **الدالة 1: التحقق من توفر الكمية**
-  const checkBloodAvailability = (bloodType, quantity) => {
-    const bloodItem = inventory.find(item => item.bloodType === bloodType);
-    
-    if (!bloodItem) {
-      return { 
-        success: false, 
-        message: `❌ فصيلة الدم ${bloodType} غير موجودة في المخزون`,
-        available: false 
-      };
-    }
-    
-    if (bloodItem.quantity < quantity) {
-      return { 
-        success: false, 
-        message: `❌ الكمية غير كافية!\nالمتاح: ${bloodItem.quantity} وحدة\nالمطلوب: ${quantity} وحدة`,
-        available: false,
-        availableQuantity: bloodItem.quantity
-      };
-    }
-    
-    return { 
-      success: true, 
-      message: `✅ الكمية متاحة`,
-      available: true,
-      availableQuantity: bloodItem.quantity,
-      price: bloodItem.price
-    };
-  };
-
-  // 🔧 **الدالة 2: خصم الكمية من المخزون**
-  const deductBloodFromInventory = (bloodType, quantity) => {
-    const bloodItem = inventory.find(item => item.bloodType === bloodType);
-    
-    if (!bloodItem) {
-      return { 
-        success: false, 
-        message: `❌ فصيلة الدم ${bloodType} غير موجودة في المخزون` 
-      };
-    }
-    
-    if (bloodItem.quantity < quantity) {
-      return { 
-        success: false, 
-        message: `❌ الكمية غير كافية!\nالمتاح: ${bloodItem.quantity} وحدة\nالمطلوب: ${quantity} وحدة` 
-      };
-    }
-    
-    // تحديث المخزون
-    const updatedInventory = inventory.map(item => {
-      if (item.bloodType === bloodType) {
-        const newQuantity = item.quantity - quantity;
-        const newStatus = getStatus(newQuantity, item.minQuantity);
-        
-        return {
-          ...item,
-          quantity: newQuantity,
-          status: newStatus,
-          lastUpdated: new Date().toISOString().split('T')[0]
-        };
-      }
-      return item;
-    });
-    
-    setInventory(updatedInventory);
-    
-    // إضافة حركة الخصم
-    const newTransaction = {
-      id: transactions.length + 1,
-      type: 'خصم للبيع',
-      bloodType: bloodType,
-      quantity: quantity,
-      source: 'عملية بيع',
-      date: `${new Date().getHours()}:${new Date().getMinutes()} - ${new Date().toISOString().split('T')[0]}`,
-      user: 'نظام المبيعات',
-      icon: '💰',
-      color: '#EF4444',
-      status: 'مكتمل'
-    };
-    
-    setTransactions([newTransaction, ...transactions]);
-    
-    return { 
-      success: true, 
-      message: `✅ تم خصم ${quantity} وحدة من فصيلة ${bloodType}`,
-      remainingQuantity: bloodItem.quantity - quantity
-    };
-  };
-
-  // 🔧 **الدالة 3: الحصول على سعر فصيلة الدم**
-  const getBloodPrice = (bloodType) => {
-    const bloodItem = inventory.find(item => item.bloodType === bloodType);
-    return bloodItem ? bloodItem.price : 0;
-  };
-
-  // ================================================
-  // 🔧 **نهاية الدوال الجديدة**
-  // ================================================
 
   // تصفية المخزون
   const filteredInventory = inventory.filter(item => {
     if (search && !item.bloodType.includes(search)) return false;
     if (statusFilter !== 'all' && item.status !== statusFilter) return false;
+    if (typeFilter !== 'all' && item.type !== typeFilter) return false;
     return true;
   });
 
@@ -247,6 +114,11 @@ const InventoryPage = () => {
       return;
     }
 
+    if (newStock.donorName.trim() === '') {
+      alert('يرجى إدخال اسم المتبرع');
+      return;
+    }
+
     const updatedInventory = inventory.map(item => {
       if (item.bloodType === newStock.bloodType) {
         return {
@@ -261,23 +133,39 @@ const InventoryPage = () => {
 
     setInventory(updatedInventory);
     
+    // تحديد النوع بناءً على فصيلة الدم
+    let transactionType = 'تبرع دم';
+    let transactionIcon = '🩸';
+    let transactionColor = '#10B981';
+    
+    if (newStock.bloodType.includes('بلازما')) {
+      transactionType = 'تبرع بلازما';
+      transactionIcon = '💧';
+      transactionColor = '#3B82F6';
+    } else if (newStock.bloodType.includes('صفيحات')) {
+      transactionType = 'تبرع صفيحات';
+      transactionIcon = '🩹';
+      transactionColor = '#8B5CF6';
+    }
+    
     // إضافة الحركة
     const newTransaction = {
       id: transactions.length + 1,
-      type: 'إضافة مخزون',
+      type: transactionType,
       bloodType: newStock.bloodType,
       quantity: newStock.quantity,
       source: getSourceLabel(newStock.source),
       date: `${new Date().getHours()}:${new Date().getMinutes()} - ${new Date().toISOString().split('T')[0]}`,
       user: 'مشرف النظام',
-      icon: '🩸',
-      color: '#10B981',
+      donorName: newStock.donorName,
+      icon: transactionIcon,
+      color: transactionColor,
       status: 'مكتمل'
     };
     
     setTransactions([newTransaction, ...transactions]);
     setShowAddModal(false);
-    setNewStock({ bloodType: 'A+', quantity: 0, source: 'donation', notes: '' });
+    setNewStock({ bloodType: 'A+', quantity: 0, source: 'donation', donorName: '', notes: '' });
     alert('تمت إضافة المخزون بنجاح');
   };
 
@@ -319,11 +207,39 @@ const InventoryPage = () => {
     }
   };
 
+  const getTypeIcon = (type) => {
+    switch(type) {
+      case 'blood': return '🩸';
+      case 'plasma': return '💧';
+      case 'platelets': return '🩹';
+      default: return '📦';
+    }
+  };
+
+  const getTypeColor = (type) => {
+    switch(type) {
+      case 'blood': return '#EF4444';
+      case 'plasma': return '#3B82F6';
+      case 'platelets': return '#8B5CF6';
+      default: return '#6B7280';
+    }
+  };
+
   // إحصائيات المخزون
   const totalUnits = inventory.reduce((sum, item) => sum + item.quantity, 0);
+  const bloodUnits = inventory.filter(item => item.type === 'blood').reduce((sum, item) => sum + item.quantity, 0);
+  const plasmaUnits = inventory.filter(item => item.type === 'plasma').reduce((sum, item) => sum + item.quantity, 0);
+  const plateletsUnits = inventory.filter(item => item.type === 'platelets').reduce((sum, item) => sum + item.quantity, 0);
   const lowStockItems = inventory.filter(item => item.status === 'منخفض' || item.status === 'حرج').length;
   const totalValue = inventory.reduce((sum, item) => sum + (item.quantity * item.price), 0);
   const averagePrice = inventory.length > 0 ? Math.round(totalValue / totalUnits) : 0;
+
+  // الخيارات للقائمة المنسدلة
+  const bloodOptions = [
+    ...inventory.filter(item => item.type === 'blood').map(item => item.bloodType),
+    ...inventory.filter(item => item.type === 'plasma').map(item => item.bloodType),
+    ...inventory.filter(item => item.type === 'platelets').map(item => item.bloodType)
+  ];
 
   return (
     <div className="inventory-page">
@@ -335,11 +251,11 @@ const InventoryPage = () => {
           <div className="header-content">
             <div className="header-title">
               <i className="fas fa-tint header-main-icon"></i>
-              <h1 className="page-title">إدارة مخزون الدم</h1>
+              <h1 className="page-title">إدارة مخزون الدم والمواد</h1>
             </div>
             <p className="page-subtitle">
               <i className="fas fa-map-marker-alt"></i>
-              بنك الدم الوطني - درعا | تتبع وإدارة وحدات الدم المتاحة
+              بنك الدم الوطني - درعا | تتبع وإدارة وحدات الدم والبلازما والصفيحات
             </p>
           </div>
           <div className="header-actions">
@@ -366,9 +282,10 @@ const InventoryPage = () => {
             <div className="stat-content">
               <div className="stat-value">{totalUnits}</div>
               <div className="stat-label">إجمالي الوحدات</div>
-              <div className="stat-change positive">
-                <i className="fas fa-arrow-up"></i>
-                +12% عن الأسبوع الماضي
+              <div className="stat-details">
+                <span>دم: {bloodUnits}</span>
+                <span>بلازما: {plasmaUnits}</span>
+                <span>صفيحات: {plateletsUnits}</span>
               </div>
             </div>
           </div>
@@ -393,10 +310,10 @@ const InventoryPage = () => {
             </div>
             <div className="stat-content">
               <div className="stat-value">{inventory.length}</div>
-              <div className="stat-label">فصائل الدم</div>
+              <div className="stat-label">أنواع المخزون</div>
               <div className="stat-change neutral">
                 <i className="fas fa-minus"></i>
-                جميع الفصائل متاحة
+                جميع الأنواع متاحة
               </div>
             </div>
           </div>
@@ -422,7 +339,7 @@ const InventoryPage = () => {
             <i className="fas fa-search search-icon"></i>
             <input
               type="text"
-              placeholder="ابحث عن فصيلة دم..."
+              placeholder="ابحث عن نوع المخزون..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="search-input"
@@ -437,32 +354,32 @@ const InventoryPage = () => {
               الكل
             </button>
             <button 
-              className={`filter-btn ${statusFilter === 'ممتاز' ? 'active' : ''}`}
-              onClick={() => setStatusFilter('ممتاز')}
+              className={`filter-btn ${typeFilter === 'all' ? 'active' : ''}`}
+              onClick={() => setTypeFilter('all')}
             >
-              <i className="fas fa-star"></i>
-              ممتاز
+              <i className="fas fa-tint"></i>
+              الجميع
             </button>
             <button 
-              className={`filter-btn ${statusFilter === 'جيد' ? 'active' : ''}`}
-              onClick={() => setStatusFilter('جيد')}
+              className={`filter-btn ${typeFilter === 'blood' ? 'active' : ''}`}
+              onClick={() => setTypeFilter('blood')}
             >
-              <i className="fas fa-check-circle"></i>
-              جيد
+              <i className="fas fa-tint"></i>
+              دم
             </button>
             <button 
-              className={`filter-btn ${statusFilter === 'منخفض' ? 'active' : ''}`}
-              onClick={() => setStatusFilter('منخفض')}
+              className={`filter-btn ${typeFilter === 'plasma' ? 'active' : ''}`}
+              onClick={() => setTypeFilter('plasma')}
             >
-              <i className="fas fa-exclamation-circle"></i>
-              منخفض
+              <i className="fas fa-water"></i>
+              بلازما
             </button>
             <button 
-              className={`filter-btn ${statusFilter === 'حرج' ? 'active' : ''}`}
-              onClick={() => setStatusFilter('حرج')}
+              className={`filter-btn ${typeFilter === 'platelets' ? 'active' : ''}`}
+              onClick={() => setTypeFilter('platelets')}
             >
-              <i className="fas fa-skull-crossbones"></i>
-              حرج
+              <i className="fas fa-plus-square"></i>
+              صفيحات
             </button>
           </div>
         </div>
@@ -472,12 +389,12 @@ const InventoryPage = () => {
           <div className="table-header">
             <h3>
               <i className="fas fa-vial"></i>
-              قائمة فصائل الدم والمخزون
+              قائمة المخزون المتاح
             </h3>
             <div className="table-summary">
               <span className="summary-text">
                 <i className="fas fa-filter"></i>
-                عرض {filteredInventory.length} من {inventory.length} فصيلة
+                عرض {filteredInventory.length} من {inventory.length} نوع
               </span>
             </div>
           </div>
@@ -486,7 +403,8 @@ const InventoryPage = () => {
             <table className="inventory-table">
               <thead>
                 <tr>
-                  <th>فصيلة الدم</th>
+                  <th>النوع</th>
+                  <th>الاسم</th>
                   <th>الكمية المتاحة</th>
                   <th>الحد الأدنى</th>
                   <th>الحالة</th>
@@ -498,6 +416,20 @@ const InventoryPage = () => {
               <tbody>
                 {filteredInventory.map((item) => (
                   <tr key={item.id} className={`inventory-row ${item.status === 'حرج' ? 'critical-row' : ''}`}>
+                    <td>
+                      <div className="item-type-cell">
+                        <div 
+                          className="type-badge"
+                          style={{ backgroundColor: getTypeColor(item.type) }}
+                        >
+                          <span className="type-icon">{getTypeIcon(item.type)}</span>
+                          <span className="type-label">
+                            {item.type === 'blood' ? 'دم' : 
+                             item.type === 'plasma' ? 'بلازما' : 'صفيحات'}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
                     <td>
                       <div className="blood-type-cell">
                         <div 
@@ -571,9 +503,7 @@ const InventoryPage = () => {
                         <button 
                           className="action-btn details-btn"
                           onClick={() => {
-                            // استخدام الدالة الجديدة
-                            const availability = checkBloodAvailability(item.bloodType, 1);
-                            alert(`تفاصيل فصيلة ${item.bloodType}:\n${item.quantity} وحدة متاحة\n${availability.message}`);
+                            alert(`تفاصيل ${item.bloodType}:\n${item.quantity} وحدة متاحة\nالسعر: ${item.price.toLocaleString()} ل.س`);
                           }}
                           title="عرض التفاصيل"
                         >
@@ -589,12 +519,12 @@ const InventoryPage = () => {
           </div>
         </div>
 
-        {/* Recent Transactions - بدون ملخص */}
+        {/* Recent Transactions */}
         <div className="transactions-section">
           <div className="section-header">
             <div className="section-title">
               <i className="fas fa-history"></i>
-              <h3>سجل الحركات والعمليات</h3>
+              <h3>سجل التبرعات والعمليات</h3>
               <span className="badge-count">{transactions.length}</span>
             </div>
             <div className="section-actions">
@@ -652,8 +582,8 @@ const InventoryPage = () => {
                   
                   <div className="transaction-content">
                     <div className="blood-info">
-                      <div className="blood-badge" style={{ backgroundColor: getStatusColor('جيد') }}>
-                        <i className="fas fa-tint"></i>
+                      <div className="blood-badge" style={{ backgroundColor: transaction.color }}>
+                        <span className="transaction-icon">{transaction.icon}</span>
                         <span>{transaction.bloodType}</span>
                       </div>
                       <div className="quantity-info">
@@ -664,28 +594,26 @@ const InventoryPage = () => {
                     
                     <div className="transaction-details">
                       <div className="detail-item">
+                        <i className="fas fa-user-circle"></i>
+                        <div className="detail-content">
+                          <span className="detail-label">اسم المتبرع</span>
+                          <span className="detail-value">{transaction.donorName}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="detail-item">
                         <i className="fas fa-map-marker-alt"></i>
                         <div className="detail-content">
-                          <span className="detail-label">المصدر / الجهة</span>
+                          <span className="detail-label">المصدر</span>
                           <span className="detail-value">{transaction.source}</span>
                         </div>
                       </div>
                       
                       <div className="detail-item">
-                        <i className="fas fa-user-circle"></i>
+                        <i className="fas fa-user"></i>
                         <div className="detail-content">
-                          <span className="detail-label">المسؤول</span>
+                          <span className="detail-label">المسجل</span>
                           <span className="detail-value">{transaction.user}</span>
-                        </div>
-                      </div>
-                      
-                      <div className="detail-item">
-                        <i className="fas fa-sticky-note"></i>
-                        <div className="detail-content">
-                          <span className="detail-label">الحالة</span>
-                          <span className={`status-badge ${transaction.status === 'مكتمل' ? 'completed' : 'pending'}`}>
-                            {transaction.status}
-                          </span>
                         </div>
                       </div>
                     </div>
@@ -716,16 +644,16 @@ const InventoryPage = () => {
                 <div className="form-group">
                   <label>
                     <i className="fas fa-tint"></i>
-                    فصيلة الدم
+                    نوع المخزون
                   </label>
                   <select
                     value={newStock.bloodType}
                     onChange={(e) => setNewStock({...newStock, bloodType: e.target.value})}
                     className="form-input"
                   >
-                    {inventory.map(item => (
-                      <option key={item.bloodType} value={item.bloodType}>
-                        {item.bloodType} - {item.quantity} وحدة متاحة
+                    {bloodOptions.map(option => (
+                      <option key={option} value={option}>
+                        {option}
                       </option>
                     ))}
                   </select>
@@ -749,6 +677,21 @@ const InventoryPage = () => {
                     <span className="input-unit">وحدة</span>
                   </div>
                 </div>
+              </div>
+              
+              <div className="form-group">
+                <label>
+                  <i className="fas fa-user"></i>
+                  اسم المتبرع
+                </label>
+                <input
+                  type="text"
+                  value={newStock.donorName}
+                  onChange={(e) => setNewStock({...newStock, donorName: e.target.value})}
+                  className="form-input"
+                  placeholder="أدخل اسم المتبرع"
+                  required
+                />
               </div>
               
               <div className="form-group">
@@ -807,79 +750,6 @@ const InventoryPage = () => {
       )}
     </div>
   );
-};
-
-// ================================================
-// 🔧 **تصدير الدوال للاستخدام في صفحة البيع**
-// ================================================
-
-// دالة للتحقق من توفر الدم
-export const checkBloodAvailability = (bloodType, quantity) => {
-  // محاكاة البيانات المخزنة (في الواقع ستكون من قاعدة بيانات)
-  const mockInventory = [
-    { bloodType: 'A+', quantity: 45 },
-    { bloodType: 'A-', quantity: 15 },
-    { bloodType: 'B+', quantity: 38 },
-    { bloodType: 'B-', quantity: 22 },
-    { bloodType: 'AB+', quantity: 12 },
-    { bloodType: 'AB-', quantity: 8 },
-    { bloodType: 'O+', quantity: 62 },
-    { bloodType: 'O-', quantity: 29 }
-  ];
-  
-  const bloodItem = mockInventory.find(item => item.bloodType === bloodType);
-  
-  if (!bloodItem) {
-    return { 
-      success: false, 
-      message: `❌ فصيلة الدم ${bloodType} غير موجودة في المخزون`,
-      available: false 
-    };
-  }
-  
-  if (bloodItem.quantity < quantity) {
-    return { 
-      success: false, 
-      message: `❌ الكمية غير كافية!\nالمتاح: ${bloodItem.quantity} وحدة\nالمطلوب: ${quantity} وحدة`,
-      available: false,
-      availableQuantity: bloodItem.quantity
-    };
-  }
-  
-  return { 
-    success: true, 
-    message: `✅ الكمية متاحة`,
-    available: true,
-    availableQuantity: bloodItem.quantity
-  };
-};
-
-// دالة لخصم الدم من المخزون
-export const deductBloodFromInventory = (bloodType, quantity) => {
-  // محاكاة لخصم الدم
-  console.log(`خصم ${quantity} وحدة من فصيلة ${bloodType}`);
-  
-  return { 
-    success: true, 
-    message: `✅ تم خصم ${quantity} وحدة من فصيلة ${bloodType}`,
-    remainingQuantity: 40 // مثال
-  };
-};
-
-// دالة للحصول على سعر الدم
-export const getBloodPrice = (bloodType) => {
-  const prices = {
-    'A+': 35000,
-    'A-': 40000,
-    'B+': 35000,
-    'B-': 40000,
-    'AB+': 45000,
-    'AB-': 50000,
-    'O+': 30000,
-    'O-': 42000
-  };
-  
-  return prices[bloodType] || 0;
 };
 
 export default InventoryPage;

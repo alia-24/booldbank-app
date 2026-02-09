@@ -1,4 +1,4 @@
-// src/App.js
+// src/App.js - أرجعه كما كان بالضبط
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout';
@@ -15,7 +15,6 @@ import SettingsPage from './pages/Admin/SettingsPage';
 function App() {
   // حالة تسجيل الدخول
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    // تحقق من localStorage
     const auth = localStorage.getItem('bloodBankAuth');
     console.log('Auth from localStorage:', auth);
     return auth === 'true';
@@ -28,7 +27,6 @@ function App() {
 
   console.log('Current auth state:', isAuthenticated);
 
-  // دالة تسجيل الدخول
   const handleLogin = (userData) => {
     console.log('Login called with:', userData);
     setIsAuthenticated(true);
@@ -37,7 +35,6 @@ function App() {
     localStorage.setItem('bloodBankUser', JSON.stringify(userData));
   };
 
-  // دالة تسجيل الخروج
   const handleLogout = () => {
     console.log('Logout called');
     setIsAuthenticated(false);

@@ -1,0 +1,149 @@
+.footer {
+  direction: rtl;
+  text-align: right;
+  background: linear-gradient(135deg, #8b0000 0%, #660000 100%);
+  color: white;
+  padding: 40px 0 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  z-index: 100;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer-logo {
+  margin-bottom: 20px;
+}
+
+.logo-icon {
+  font-size: 40px;
+  color: #ffcccb;
+  margin-bottom: 15px;
+}
+
+.footer-logo h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #ffcccb;
+}
+
+.footer-logo p {
+  color: #ddd;
+  font-size: 16px;
+}
+
+.footer-section h4 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #ffcccb;
+  border-bottom: 2px solid rgba(255, 204, 203, 0.3);
+  padding-bottom: 10px;
+}
+
+.footer-contacts {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-contacts li {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 16px;
+  color: #ddd;
+}
+
+.footer-contacts i {
+  width: 25px;
+  color: #ffcccb;
+  font-size: 18px;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ddd;
+  font-size: 14px;
+}
+
+.footer-note {
+  margin-top: 10px;
+  color: #ffcccb;
+  font-size: 16px;
+}
+
+.footer-note i {
+  margin-left: 8px;
+  color: #ff6b6b;
+}
+
+/* تحسينات للتوافق مع الأجهزة المختلفة */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .footer-contacts li {
+    justify-content: center;
+  }
+  
+  .footer-logo h3 {
+    font-size: 22px;
+  }
+  
+  .footer-section h4 {
+    font-size: 18px;
+  }
+  
+  .footer {
+    padding: 30px 0 15px;
+  }
+}
+
+/* إصلاح مشكلة الخطوط الغير منتظمة */
+.footer-contacts li,
+.work-hours li {
+  line-height: 1.6;
+  min-height: 25px;
+  align-items: flex-start;
+}
+
+/* إصلاح لمشكلة الجرس (إذا كان موجودًا في مكون آخر) */
+.notification-bell {
+  cursor: pointer;
+  position: relative;
+}
+
+.notification-bell i {
+  font-size: 24px;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.notification-bell:hover i {
+  transform: scale(1.1);
+}
+
+.notification-bell.active i {
+  color: #ffcccb;
+}

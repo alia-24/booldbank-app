@@ -3,113 +3,12 @@ import Header from '../../components/layout/Header';
 import '../../styles/AppointmentsPage.css';
 
 const AppointmentsPage = () => {
-  // بيانات المواعيد
-  const [appointments, setAppointments] = useState([
-    { 
-      id: 1, 
-      donorName: 'أحمد محمد', 
-      donorId: 'DON001', 
-      bloodType: 'A+', 
-      date: '2024-01-25',
-      time: '10:00',
-      type: 'تبرع جديد',
-      status: 'مؤكد',
-      notes: 'موعد أول تبرع',
-      phone: '0912345678'
-    },
-    { 
-      id: 2, 
-      donorName: 'سارة خالد', 
-      donorId: 'DON045', 
-      bloodType: 'O-', 
-      date: '2024-01-25',
-      time: '11:30',
-      type: 'تبرع دوري',
-      status: 'مؤكد',
-      notes: 'المتبرعة الثالثة',
-      phone: '0923456789'
-    },
-    { 
-      id: 3, 
-      donorName: 'محمد علي', 
-      donorId: 'DON112', 
-      bloodType: 'B+', 
-      date: '2024-01-25',
-      time: '14:00',
-      type: 'فحص مخبري',
-      status: 'معلق',
-      notes: 'فحص ما قبل التبرع',
-      phone: '0934567890'
-    },
-    { 
-      id: 4, 
-      donorName: 'فاطمة حسن', 
-      donorId: 'DON078', 
-      bloodType: 'AB+', 
-      date: '2024-01-26',
-      time: '09:00',
-      type: 'تبرع جديد',
-      status: 'مؤكد',
-      notes: 'توصيل إلى المركز',
-      phone: '0945678901'
-    },
-    { 
-      id: 5, 
-      donorName: 'خالد إبراهيم', 
-      donorId: 'DON023', 
-      bloodType: 'A-', 
-      date: '2024-01-26',
-      time: '15:30',
-      type: 'تبرع دوري',
-      status: 'ملغي',
-      notes: 'اعتذر بسبب السفر',
-      phone: '0956789012'
-    },
-    { 
-      id: 6, 
-      donorName: 'نورا أحمد', 
-      donorId: 'DON156', 
-      bloodType: 'O+', 
-      date: '2024-01-27',
-      time: '08:30',
-      type: 'فحص مخبري',
-      status: 'مؤكد',
-      notes: 'فحص دوري',
-      phone: '0967890123'
-    },
-    { 
-      id: 7, 
-      donorName: 'يوسف محمود', 
-      donorId: 'DON089', 
-      bloodType: 'B-', 
-      date: '2024-01-27',
-      time: '13:00',
-      type: 'تبرع جديد',
-      status: 'قيد الانتظار',
-      notes: 'موعد مسائي',
-      phone: '0978901234'
-    },
-    { 
-      id: 8, 
-      donorName: 'هدى سامي', 
-      donorId: 'DON134', 
-      bloodType: 'AB-', 
-      date: '2024-01-28',
-      time: '10:30',
-      type: 'تبرع دوري',
-      status: 'مؤكد',
-      notes: 'تبرع رابع',
-      phone: '0989012345'
-    }
-  ]);
-
-  // حالة للبحث والتصفية
+  const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('الكل');
   const [dateFilter, setDateFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState('الكل');
-  
-  // حالة للنموذج
   const [showAddModal, setShowAddModal] = useState(false);
   const [newAppointment, setNewAppointment] = useState({
     donorName: '',
@@ -121,6 +20,64 @@ const AppointmentsPage = () => {
     notes: ''
   });
 
+  // تحميل المواعيد من LocalStorage
+  useEffect(() => {
+    loadAppointments();
+    const interval = setInterval(loadAppointments, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const loadAppointments = () => {
+    try {
+      setLoading(true);
+      const storedAppointments = JSON.parse(localStorage.getItem('blood_bank_appointments') || '[]');
+      
+      const formattedAppointments = storedAppointments.map(appt => {
+        let statusArabic = 'معلق';
+        if (appt.appointmentStatus === 'confirmed') statusArabic = 'مؤكد';
+        else if (appt.appointmentStatus === 'cancelled') statusArabic = 'ملغي';
+        else if (appt.appointmentStatus === 'completed') statusArabic = 'مكتمل';
+        else if (appt.appointmentStatus === 'pending') statusArabic = 'معلق';
+        
+        let typeArabic = 'تبرع جديد';
+        if (appt.appointmentType === 'blood_donation') typeArabic = 'تبرع بالدم';
+        else if (appt.appointmentType === 'checkup') typeArabic = 'فحص مخبري';
+        
+        const donorId = `DON${appt.donorPhone ? appt.donorPhone.slice(-3) : '001'}`;
+        const formattedTime = appt.appointmentTime?.length === 4 ? `0${appt.appointmentTime}` : appt.appointmentTime || '09:00';
+        
+        return {
+          id: appt.id,
+          donorName: appt.donorName || 'غير معروف',
+          donorId: donorId,
+          bloodType: appt.donorBloodType || 'غير معروف',
+          date: appt.appointmentDate || new Date().toISOString().split('T')[0],
+          time: formattedTime,
+          type: typeArabic,
+          status: statusArabic,
+          notes: appt.medicalNotes || appt.notes || 'موعد تبرع بالدم',
+          phone: appt.donorPhone || 'غير معروف',
+          originalData: appt,
+          age: appt.donorAge,
+          city: appt.donorCity,
+          weight: appt.donorWeight,
+          lastDonation: appt.donorLastDonation,
+          chronicDisease: appt.donorChronicDisease,
+          smoking: appt.donorSmoking,
+          createdAt: appt.createdAt,
+          priority: appt.priority
+        };
+      });
+      
+      formattedAppointments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setAppointments(formattedAppointments);
+    } catch (error) {
+      console.error('خطأ في تحميل المواعيد:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // إحصائيات المواعيد
   const [appointmentStats, setAppointmentStats] = useState({
     today: 0,
@@ -128,7 +85,8 @@ const AppointmentsPage = () => {
     thisWeek: 0,
     confirmed: 0,
     pending: 0,
-    cancelled: 0
+    cancelled: 0,
+    completed: 0 // إضافة إحصائية للمواعيد المكتملة
   });
 
   // تحديث الإحصائيات
@@ -146,8 +104,9 @@ const AppointmentsPage = () => {
         return appointmentDate >= today && appointmentDate <= weekFromNow;
       }).length,
       confirmed: appointments.filter(a => a.status === 'مؤكد').length,
-      pending: appointments.filter(a => a.status === 'معلق' || a.status === 'قيد الانتظار').length,
-      cancelled: appointments.filter(a => a.status === 'ملغي').length
+      pending: appointments.filter(a => a.status === 'معلق').length,
+      cancelled: appointments.filter(a => a.status === 'ملغي').length,
+      completed: appointments.filter(a => a.status === 'مكتمل').length
     };
     
     setAppointmentStats(stats);
@@ -177,22 +136,28 @@ const AppointmentsPage = () => {
       return;
     }
 
-    const appointmentId = `DON${(appointments.length + 1).toString().padStart(3, '0')}`;
-    
-    const newAppt = {
-      id: appointments.length + 1,
+    const bankAppointmentData = {
+      id: `manual_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       donorName: newAppointment.donorName,
-      donorId: appointmentId,
-      bloodType: newAppointment.bloodType,
-      date: newAppointment.date,
-      time: newAppointment.time,
-      type: newAppointment.type,
-      status: 'معلق',
-      notes: newAppointment.notes,
-      phone: newAppointment.phone
+      donorPhone: newAppointment.phone,
+      donorBloodType: newAppointment.bloodType,
+      appointmentDate: newAppointment.date,
+      appointmentTime: newAppointment.time,
+      appointmentStatus: 'pending',
+      appointmentType: newAppointment.type === 'تبرع جديد' ? 'blood_donation' : 
+                     newAppointment.type === 'فحص مخبري' ? 'checkup' : 'consultation',
+      center: 'بنك الدم المركزي - درعا',
+      medicalNotes: newAppointment.notes,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      addedManually: true
     };
 
-    setAppointments([newAppt, ...appointments]);
+    const bankAppointments = JSON.parse(localStorage.getItem('blood_bank_appointments') || '[]');
+    bankAppointments.push(bankAppointmentData);
+    localStorage.setItem('blood_bank_appointments', JSON.stringify(bankAppointments));
+
+    loadAppointments();
     setShowAddModal(false);
     setNewAppointment({
       donorName: '',
@@ -207,16 +172,54 @@ const AppointmentsPage = () => {
     alert('تم إضافة الموعد بنجاح!');
   };
 
-  // تحديث حالة الموعد
+  // تحديث حالة الموعد مع إضافة المتبرع للتقارير عند الاكتمال
   const handleUpdateStatus = (id, newStatus) => {
-    setAppointments(appointments.map(appt => 
-      appt.id === id ? { ...appt, status: newStatus } : appt
-    ));
+    let englishStatus = 'pending';
+    if (newStatus === 'مؤكد') englishStatus = 'confirmed';
+    else if (newStatus === 'ملغي') englishStatus = 'cancelled';
+    else if (newStatus === 'مكتمل') englishStatus = 'completed';
+    
+    const bankAppointments = JSON.parse(localStorage.getItem('blood_bank_appointments') || '[]');
+    let donorData = null;
+    
+    const updatedAppointments = bankAppointments.map(appt => {
+      if (appt.id === id) {
+        // حفظ بيانات المتبرع إذا كانت الحالة "مكتمل"
+        if (englishStatus === 'completed') {
+          donorData = {
+            id: `DONOR_${Date.now()}`,
+            name: appt.donorName,
+            phone: appt.donorPhone,
+            bloodType: appt.donorBloodType,
+            appointmentId: appt.id,
+            appointmentDate: appt.appointmentDate,
+            completedAt: new Date().toISOString(),
+            donationType: appt.appointmentType === 'blood_donation' ? 'تبرع بالدم' : 'فحص مخبري'
+          };
+        }
+        
+        return {
+          ...appt,
+          appointmentStatus: englishStatus,
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return appt;
+    });
+    
+    localStorage.setItem('blood_bank_appointments', JSON.stringify(updatedAppointments));
+    
+    // إذا كانت الحالة مكتملة، أضف المتبرع إلى تقرير المتبرعين
+    if (donorData && newStatus === 'مكتمل') {
+      addToCompletedDonorsReport(donorData);
+    }
+    
+    loadAppointments();
     
     const statusMessages = {
       'مؤكد': 'تم تأكيد الموعد',
       'ملغي': 'تم إلغاء الموعد',
-      'مكتمل': 'تم إكمال الموعد'
+      'مكتمل': 'تم إكمال الموعد وإضافة المتبرع للتقرير'
     };
     
     if (statusMessages[newStatus]) {
@@ -224,30 +227,119 @@ const AppointmentsPage = () => {
     }
   };
 
+  // إضافة المتبرع المكتمل إلى تقرير المتبرعين
+  const addToCompletedDonorsReport = (donorData) => {
+    try {
+      // تحميل تقارير المتبرعين المكتملين الحالية
+      const completedDonors = JSON.parse(localStorage.getItem('completed_donors_report') || '[]');
+      
+      // التحقق من عدم وجود تكرار
+      const isDuplicate = completedDonors.some(donor => 
+        donor.phone === donorData.phone && 
+        donor.appointmentDate === donorData.appointmentDate
+      );
+      
+      if (!isDuplicate) {
+        completedDonors.push(donorData);
+        localStorage.setItem('completed_donors_report', JSON.stringify(completedDonors));
+        console.log('تم إضافة المتبرع إلى التقرير:', donorData.name);
+      }
+    } catch (error) {
+      console.error('خطأ في إضافة المتبرع للتقرير:', error);
+    }
+  };
+
   // حذف موعد
   const handleDeleteAppointment = (id) => {
     if (window.confirm('هل أنت متأكد من حذف هذا الموعد؟')) {
-      setAppointments(appointments.filter(appt => appt.id !== id));
+      const bankAppointments = JSON.parse(localStorage.getItem('blood_bank_appointments') || '[]');
+      const filteredAppointments = bankAppointments.filter(appt => appt.id !== id);
+      localStorage.setItem('blood_bank_appointments', JSON.stringify(filteredAppointments));
+      
+      loadAppointments();
       alert('تم حذف الموعد بنجاح');
     }
   };
 
   // إرسال رسالة تذكير
   const handleSendReminder = (appointment) => {
-    alert(`تم إرسال رسالة تذكير إلى ${appointment.donorName} على الرقم ${appointment.phone}`);
+    const message = `عزيزي/عزيزتي ${appointment.donorName},
+    
+تذكير بموعد التبرع بالدم:
+📅 التاريخ: ${formatDate(appointment.date)}
+🕒 الوقت: ${appointment.time}
+📍 المكان: بنك الدم المركزي - درعا
+
+يرجى الحضور قبل الموعد بـ 10 دقائق.
+
+بنك الدم المركزي - درعا
+📞 6778610`;
+    
+    alert(`تم إرسال رسالة تذكير إلى ${appointment.donorName} على الرقم ${appointment.phone}\n\n${message}`);
+  };
+
+  // عرض تفاصيل الموعد
+  const handleViewDetails = (appointment) => {
+    const details = `
+👤 اسم المتبرع: ${appointment.donorName}
+📞 رقم الهاتف: ${appointment.phone}
+🆔 رقم المتبرع: ${appointment.donorId}
+🩸 فصيلة الدم: ${appointment.bloodType}
+🎂 العمر: ${appointment.age || 'غير معروف'}
+🏙️ المدينة: ${appointment.city || 'غير معروف'}
+⚖️ الوزن: ${appointment.weight || 'غير معروف'} كجم
+🩺 آخر تبرع: ${getLastDonationText(appointment.lastDonation)}
+🚬 التدخين: ${getSmokingText(appointment.smoking)}
+💊 الأمراض المزمنة: ${appointment.chronicDisease === 'yes' ? 'نعم' : 'لا'}
+📅 تاريخ الموعد: ${formatDate(appointment.date)}
+🕒 وقت الموعد: ${appointment.time}
+📝 الملاحظات: ${appointment.notes}
+📋 الحالة: ${appointment.status}
+⏰ تاريخ التسجيل: ${new Date(appointment.createdAt).toLocaleString('ar-SA')}
+    `;
+    
+    alert(details);
+  };
+
+  // دالة مساعدة لتحويل نص آخر تبرع
+  const getLastDonationText = (lastDonation) => {
+    const texts = {
+      'never': 'لم يسبق التبرع',
+      'less-1month': 'أقل من شهر',
+      '1-2months': 'من 1-2 شهر',
+      '2-3months': 'من 2-3 أشهر',
+      '3-6months': 'من 3-6 أشهر',
+      '6-12months': 'من 6-12 شهر',
+      'over-year': 'أكثر من سنة'
+    };
+    return texts[lastDonation] || 'غير معروف';
+  };
+
+  // دالة مساعدة لتحويل نص التدخين
+  const getSmokingText = (smoking) => {
+    const texts = {
+      'no': 'لا',
+      'yes': 'نعم',
+      'ex-smoker': 'مدخن سابق'
+    };
+    return texts[smoking] || 'غير معروف';
   };
 
   // أنواع المواعيد
-  const appointmentTypes = ['الكل', 'تبرع جديد', 'تبرع دوري', 'فحص مخبري', 'استشارة'];
+  const appointmentTypes = ['الكل', 'تبرع بالدم', 'تبرع جديد', 'فحص مخبري', 'استشارة'];
   
-  // حالات المواعيد
-  const appointmentStatuses = ['الكل', 'مؤكد', 'معلق', 'قيد الانتظار', 'ملغي', 'مكتمل'];
+  // حالات المواعيد (مع إضافة "مكتمل")
+  const appointmentStatuses = ['الكل', 'مؤكد', 'معلق', 'ملغي', 'مكتمل'];
 
   // تنسيق التاريخ
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString('ar-SA', options);
+    try {
+      const date = new Date(dateString);
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      return date.toLocaleDateString('ar-SA', options);
+    } catch (e) {
+      return dateString;
+    }
   };
 
   // الحصول على لون الحالة
@@ -255,7 +347,6 @@ const AppointmentsPage = () => {
     switch(status) {
       case 'مؤكد': return '#10B981';
       case 'معلق': return '#F59E0B';
-      case 'قيد الانتظار': return '#3B82F6';
       case 'ملغي': return '#EF4444';
       case 'مكتمل': return '#8B5CF6';
       default: return '#6B7280';
@@ -267,7 +358,6 @@ const AppointmentsPage = () => {
     switch(status) {
       case 'مؤكد': return '#D1FAE5';
       case 'معلق': return '#FEF3C7';
-      case 'قيد الانتظار': return '#DBEAFE';
       case 'ملغي': return '#FEE2E2';
       case 'مكتمل': return '#F3E8FF';
       default: return '#F3F4F6';
@@ -278,12 +368,26 @@ const AppointmentsPage = () => {
   const getTypeIcon = (type) => {
     switch(type) {
       case 'تبرع جديد': return '🆕';
+      case 'تبرع بالدم': return '💉';
       case 'تبرع دوري': return '🔄';
       case 'فحص مخبري': return '🔬';
       case 'استشارة': return '💬';
       default: return '📅';
     }
   };
+
+  // رسالة التحميل
+  if (loading) {
+    return (
+      <div className="appointments-page">
+        <Header />
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>جاري تحميل المواعيد...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="appointments-page">
@@ -300,16 +404,23 @@ const AppointmentsPage = () => {
             <button className="btn btn-primary" onClick={() => setShowAddModal(true)}>
               <span>➕</span> موعد جديد
             </button>
-            <button className="btn btn-secondary" onClick={() => alert('جارٍ إرسال تذكير لجميع المواعيد')}>
+            <button className="btn btn-secondary" onClick={() => {
+              if (window.confirm('هل تريد إرسال تذكير لجميع المواعيد المؤكدة؟')) {
+                const confirmedAppointments = appointments.filter(a => a.status === 'مؤكد');
+                confirmedAppointments.forEach(appt => {
+                  alert(`تم إرسال تذكير لـ ${appt.donorName}`);
+                });
+              }
+            }}>
               <span>🔔</span> تذكير جماعي
             </button>
-            <button className="btn btn-outline">
-              <span>📥</span> تصدير الجدول
+            <button className="btn btn-outline" onClick={loadAppointments}>
+              <span>🔄</span> تحديث
             </button>
           </div>
         </div>
 
-        {/* Stats */}
+        {/* Stats - مع إضافة إحصائية المكتملين */}
         <div className="appointment-stats">
           <div className="stat-card">
             <div className="stat-icon" style={{ backgroundColor: '#3B82F6' }}>📅</div>
@@ -353,53 +464,12 @@ const AppointmentsPage = () => {
               <div className="stat-label">ملغي</div>
             </div>
           </div>
-        </div>
-
-        {/* Calendar View */}
-        <div className="calendar-section">
-          <div className="section-header">
-            <h3>📆 تقويم المواعيد</h3>
-            <div className="calendar-navigation">
-              <button className="nav-btn">◀</button>
-              <span className="current-month">يناير 2024</span>
-              <button className="nav-btn">▶</button>
+          <div className="stat-card">
+            <div className="stat-icon" style={{ backgroundColor: '#8B5CF6' }}>🏆</div>
+            <div className="stat-content">
+              <div className="stat-value">{appointmentStats.completed}</div>
+              <div className="stat-label">مكتمل</div>
             </div>
-          </div>
-          
-          <div className="calendar-grid">
-            {['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'].map(day => (
-              <div key={day} className="calendar-day-header">{day}</div>
-            ))}
-            
-            {Array.from({ length: 31 }, (_, i) => i + 1).map(day => {
-              const dayAppointments = appointments.filter(a => {
-                const appointmentDate = new Date(a.date);
-                return appointmentDate.getDate() === day && appointmentDate.getMonth() === 0;
-              });
-              
-              const isToday = day === new Date().getDate();
-              
-              return (
-                <div key={day} className={`calendar-day ${isToday ? 'today' : ''}`}>
-                  <div className="day-number">{day}</div>
-                  {dayAppointments.length > 0 && (
-                    <div className="day-appointments">
-                      {dayAppointments.slice(0, 2).map(appt => (
-                        <div 
-                          key={appt.id}
-                          className="appointment-dot"
-                          style={{ backgroundColor: getStatusColor(appt.status) }}
-                          title={`${appt.donorName} - ${appt.time}`}
-                        ></div>
-                      ))}
-                      {dayAppointments.length > 2 && (
-                        <div className="more-appointments">+{dayAppointments.length - 2}</div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
           </div>
         </div>
 
@@ -462,9 +532,12 @@ const AppointmentsPage = () => {
         {/* Appointments Table */}
         <div className="appointments-table-container">
           <div className="table-header">
-            <h3>📋 قائمة المواعيد</h3>
+            <h3>📋 قائمة المواعيد ({filteredAppointments.length})</h3>
             <div className="table-summary">
               <span>عرض {filteredAppointments.length} من {appointments.length} موعد</span>
+              <span style={{ marginLeft: '20px', color: '#8B5CF6', fontWeight: 'bold' }}>
+                🏆 المكتملين: {appointmentStats.completed}
+              </span>
             </div>
           </div>
           
@@ -482,111 +555,149 @@ const AppointmentsPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredAppointments.map((appointment) => (
-                  <tr key={appointment.id}>
-                    <td>
-                      <div className="donor-info">
-                        <div className="donor-avatar">
-                          {appointment.donorName.charAt(0)}
-                        </div>
-                        <div>
-                          <div className="donor-name">{appointment.donorName}</div>
-                          <div className="donor-id">{appointment.donorId}</div>
-                          <div className="donor-phone">{appointment.phone}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="blood-type-cell">
-                        <div 
-                          className="blood-badge-small"
-                          style={{ backgroundColor: getStatusColor(appointment.status) }}
-                        >
-                          {appointment.bloodType}
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="datetime-cell">
-                        <div className="appointment-date">{formatDate(appointment.date)}</div>
-                        <div className="appointment-time">
-                          <span className="time-icon">🕒</span>
-                          {appointment.time}
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="type-cell">
-                        <span className="type-icon">{getTypeIcon(appointment.type)}</span>
-                        <span className="type-text">{appointment.type}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div 
-                        className="status-badge"
-                        style={{
-                          backgroundColor: getStatusBgColor(appointment.status),
-                          color: getStatusColor(appointment.status),
-                          border: `1px solid ${getStatusColor(appointment.status)}`
-                        }}
-                      >
-                        {appointment.status}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="notes-cell">
-                        {appointment.notes || 'لا توجد ملاحظات'}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="actions-cell">
-                        {appointment.status === 'معلق' && (
-                          <button 
-                            className="action-btn confirm-btn"
-                            onClick={() => handleUpdateStatus(appointment.id, 'مؤكد')}
-                            title="تأكيد"
-                          >
-                            ✅
-                          </button>
-                        )}
-                        
-                        <button 
-                          className="action-btn reminder-btn"
-                          onClick={() => handleSendReminder(appointment)}
-                          title="إرسال تذكير"
-                        >
-                          🔔
-                        </button>
-                        
-                        <button 
-                          className="action-btn edit-btn"
-                          onClick={() => alert(`تعديل موعد ${appointment.donorName}`)}
-                          title="تعديل"
-                        >
-                          ✏️
-                        </button>
-                        
-                        {appointment.status !== 'ملغي' && appointment.status !== 'مكتمل' && (
-                          <button 
-                            className="action-btn cancel-btn"
-                            onClick={() => handleUpdateStatus(appointment.id, 'ملغي')}
-                            title="إلغاء"
-                          >
-                            ❌
-                          </button>
-                        )}
-                        
-                        <button 
-                          className="action-btn delete-btn"
-                          onClick={() => handleDeleteAppointment(appointment.id)}
-                          title="حذف"
-                        >
-                          🗑️
+                {filteredAppointments.length === 0 ? (
+                  <tr>
+                    <td colSpan="7" className="empty-state">
+                      <div className="empty-message">
+                        <div className="empty-icon">📭</div>
+                        <h4>لا توجد مواعيد</h4>
+                        <p>لم يتم العثور على مواعيد تطابق بحثك</p>
+                        <button className="btn btn-primary" onClick={() => {
+                          setSearchTerm('');
+                          setStatusFilter('الكل');
+                          setDateFilter('');
+                          setTypeFilter('الكل');
+                        }}>
+                          عرض جميع المواعيد
                         </button>
                       </div>
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  filteredAppointments.map((appointment) => (
+                    <tr key={appointment.id}>
+                      <td>
+                        <div className="donor-info">
+                          <div className="donor-avatar">
+                            {appointment.donorName.charAt(0)}
+                          </div>
+                          <div>
+                            <div className="donor-name">{appointment.donorName}</div>
+                            <div className="donor-id">{appointment.donorId}</div>
+                            <div className="donor-phone">{appointment.phone}</div>
+                            {appointment.age && (
+                              <div className="donor-age">العمر: {appointment.age}</div>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="blood-type-cell">
+                          <div 
+                            className="blood-badge-small"
+                            style={{ 
+                              backgroundColor: appointment.bloodType === 'O-' ? '#EF4444' : getStatusColor(appointment.status),
+                              color: 'white'
+                            }}
+                          >
+                            {appointment.bloodType}
+                            {appointment.bloodType === 'O-' && ' ⚡'}
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="datetime-cell">
+                          <div className="appointment-date">{formatDate(appointment.date)}</div>
+                          <div className="appointment-time">
+                            <span className="time-icon">🕒</span>
+                            {appointment.time}
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="type-cell">
+                          <span className="type-icon">{getTypeIcon(appointment.type)}</span>
+                          <span className="type-text">{appointment.type}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div 
+                          className="status-badge"
+                          style={{
+                            backgroundColor: getStatusBgColor(appointment.status),
+                            color: getStatusColor(appointment.status),
+                            border: `1px solid ${getStatusColor(appointment.status)}`
+                          }}
+                        >
+                          {appointment.status}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="notes-cell">
+                          {appointment.notes || 'لا توجد ملاحظات'}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="actions-cell">
+                          <button 
+                            className="action-btn info-btn"
+                            onClick={() => handleViewDetails(appointment)}
+                            title="تفاصيل"
+                          >
+                            ℹ️
+                          </button>
+                          
+                          {appointment.status === 'معلق' && (
+                            <button 
+                              className="action-btn confirm-btn"
+                              onClick={() => handleUpdateStatus(appointment.id, 'مؤكد')}
+                              title="تأكيد"
+                            >
+                              ✅
+                            </button>
+                          )}
+                          
+                          {appointment.status === 'مؤكد' && (
+                            <button 
+                              className="action-btn complete-btn"
+                              onClick={() => handleUpdateStatus(appointment.id, 'مكتمل')}
+                              title="إكمال وإضافة للتقرير"
+                              style={{ backgroundColor: '#8B5CF6', color: 'white' }}
+                            >
+                              🏆
+                            </button>
+                          )}
+                          
+                          <button 
+                            className="action-btn reminder-btn"
+                            onClick={() => handleSendReminder(appointment)}
+                            title="إرسال تذكير"
+                          >
+                            🔔
+                          </button>
+                          
+                          {appointment.status !== 'ملغي' && appointment.status !== 'مكتمل' && (
+                            <button 
+                              className="action-btn cancel-btn"
+                              onClick={() => handleUpdateStatus(appointment.id, 'ملغي')}
+                              title="إلغاء"
+                            >
+                              ❌
+                            </button>
+                          )}
+                          
+                          <button 
+                            className="action-btn delete-btn"
+                            onClick={() => handleDeleteAppointment(appointment.id)}
+                            title="حذف"
+                          >
+                            🗑️
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
@@ -595,8 +706,10 @@ const AppointmentsPage = () => {
         {/* Upcoming Appointments */}
         <div className="upcoming-appointments">
           <div className="section-header">
-            <h3>⏰ المواعيد القادمة</h3>
-            <button className="btn btn-outline">عرض الكل</button>
+            <h3>⏰ المواعيد القادمة لهذا الأسبوع</h3>
+            <button className="btn btn-outline" onClick={() => {
+              alert('عرض جميع المواعيد القادمة');
+            }}>عرض الكل</button>
           </div>
           
           <div className="upcoming-list">
@@ -624,15 +737,27 @@ const AppointmentsPage = () => {
                       تذكير
                     </button>
                     <button 
-                      className="btn btn-outline btn-sm"
+                      className="btn btn-complete btn-sm"
                       onClick={() => handleUpdateStatus(appointment.id, 'مكتمل')}
+                      style={{ backgroundColor: '#8B5CF6', color: 'white' }}
                     >
-                      إكمال
+                      🏆 إكمال
                     </button>
                   </div>
                 </div>
               ))}
           </div>
+        </div>
+
+        {/* Quick Info */}
+        <div className="quick-info-card">
+          <h4>💡 ملاحظة مهمة:</h4>
+          <p>عند النقر على زر "🏆 إكمال" سيتم:</p>
+          <ol>
+            <li>تغيير حالة الموعد إلى <strong>مكتمل</strong></li>
+            <li>إضافة المتبرع إلى <strong>تقرير المتبرعين المكتملين</strong></li>
+            <li>يمكنك عرض المتبرعين المكتملين في صفحة التقارير</li>
+          </ol>
         </div>
       </div>
 
@@ -722,7 +847,7 @@ const AppointmentsPage = () => {
                     className="form-input"
                   >
                     {Array.from({ length: 12 }, (_, i) => {
-                      const hour = i + 8; // من 8 صباحاً إلى 7 مساءً
+                      const hour = i + 8;
                       return [`${hour}:00`, `${hour}:30`];
                     }).flat().map(time => (
                       <option key={time} value={time}>{time}</option>

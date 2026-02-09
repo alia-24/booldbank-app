@@ -1,0 +1,1052 @@
+/* صفحة الدليل */
+.guide-page {
+  padding: 2rem 0 4rem;
+}
+
+/* عنوان الصفحة */
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  color: var(--darker);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.page-title i {
+  color: var(--primary);
+}
+
+.page-subtitle {
+  font-size: 1.2rem;
+  color: var(--dark);
+  opacity: 0.8;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* التنقل السريع */
+.quick-nav {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: var(--lighter);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--dark);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-btn:hover {
+  background: rgba(220, 38, 38, 0.05);
+  border-color: rgba(220, 38, 38, 0.2);
+  transform: translateY(-2px);
+}
+
+.nav-btn.active {
+  background: rgba(220, 38, 38, 0.1);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.nav-btn i {
+  font-size: 1.1rem;
+}
+
+/* محتوى الأقسام */
+.section-content {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-title {
+  font-size: 2rem;
+  color: var(--darker);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-title i {
+  color: var(--primary);
+}
+
+/* قسم شروط التبرع */
+.conditions-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.conditions-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  border-top: 4px solid var(--success);
+}
+
+.conditions-card h3 {
+  color: var(--darker);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.conditions-card h3 i {
+  color: var(--success);
+}
+
+.conditions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.conditions-list li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--lighter);
+}
+
+.conditions-list li:last-child {
+  border-bottom: none;
+}
+
+.conditions-list li i {
+  color: var(--success);
+  width: 20px;
+}
+
+.contraindications-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.contraindications-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.contraindications-card.permanent {
+  border-top: 4px solid var(--danger);
+}
+
+.contraindications-card.temporary {
+  border-top: 4px solid var(--warning);
+}
+
+.contraindications-card h3 {
+  color: var(--darker);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.contraindications-card.permanent h3 i {
+  color: var(--danger);
+}
+
+.contraindications-card.temporary h3 i {
+  color: var(--warning);
+}
+
+.contraindications-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contraindications-card li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--lighter);
+}
+
+.contraindications-card li:last-child {
+  border-bottom: none;
+}
+
+.contraindications-card li i {
+  margin-top: 0.25rem;
+  flex-shrink: 0;
+}
+
+.contraindications-card.permanent li i {
+  color: var(--danger);
+}
+
+.contraindications-card.temporary li i {
+  color: var(--warning);
+}
+
+/* جدول الأهليات */
+.eligibility-table {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.eligibility-table h3 {
+  color: var(--darker);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.eligibility-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.eligibility-table th,
+.eligibility-table td {
+  padding: 1rem;
+  text-align: right;
+  border-bottom: 1px solid var(--lighter);
+}
+
+.eligibility-table th {
+  background: var(--lighter);
+  font-weight: 700;
+  color: var(--darker);
+}
+
+.eligibility-table tbody tr:hover {
+  background: rgba(220, 38, 38, 0.03);
+}
+
+/* قسم فصائل الدم */
+.blood-type-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--lighter);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--dark);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.filter-btn:hover {
+  background: rgba(220, 38, 38, 0.05);
+  border-color: rgba(220, 38, 38, 0.2);
+}
+
+.filter-btn.active {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.compatibility-info {
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.1),
+    rgba(22, 163, 74, 0.1)
+  );
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border-right: 4px solid var(--primary);
+}
+
+.compatibility-info h3 {
+  color: var(--darker);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.compatibility-info p {
+  margin: 0;
+  color: var(--dark);
+  line-height: 1.6;
+}
+
+/* شبكة فصائل الدم */
+.blood-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.blood-type-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  border-top: 4px solid;
+  transition: var(--transition);
+}
+
+.blood-type-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.blood-type-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.blood-type-header h3 {
+  font-size: 1.75rem;
+  margin: 0;
+  color: var(--darker);
+}
+
+.blood-percentage {
+  font-size: 1rem;
+  background: var(--lighter);
+  color: var(--dark);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.blood-type-info {
+  margin-bottom: 1rem;
+}
+
+.blood-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--darker);
+  margin: 0 0 0.5rem 0;
+}
+
+.blood-description {
+  color: var(--dark);
+  opacity: 0.8;
+  margin: 0 0 1rem 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.blood-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--lighter);
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.detail-value {
+  color: var(--darker);
+  text-align: left;
+}
+
+.rarity-نادر {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.rarity-شائع {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.blood-type-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.badge-rare {
+  background: rgba(220, 38, 38, 0.1);
+  color: var(--danger);
+}
+
+.badge-common {
+  background: rgba(22, 163, 74, 0.1);
+  color: var(--success);
+}
+
+/* جدول التوافق */
+.compatibility-table {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.compatibility-table h3 {
+  color: var(--darker);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.compatibility-table table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.compatibility-table th,
+.compatibility-table td {
+  padding: 1rem;
+  text-align: right;
+  border-bottom: 1px solid var(--lighter);
+}
+
+.compatibility-table th {
+  background: var(--lighter);
+  font-weight: 700;
+  color: var(--darker);
+}
+
+.compatibility-table tbody tr:hover {
+  background: rgba(220, 38, 38, 0.03);
+}
+
+.blood-type-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.compatibility-list {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* قسم فوائد التبرع */
+.benefits-intro {
+  background: rgba(220, 38, 38, 0.05);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.benefits-intro p {
+  margin: 0;
+  color: var(--dark);
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.benefit-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.benefit-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: var(--white);
+  font-size: 1.5rem;
+}
+
+.benefit-card h3 {
+  color: var(--darker);
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.benefit-card p {
+  color: var(--dark);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.benefits-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.stat-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--lighter);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-weight: 600;
+  color: var(--darker);
+  margin-bottom: 0.25rem;
+}
+
+.stat-description {
+  color: var(--dark);
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.community-benefits {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.community-benefits h3 {
+  color: var(--darker);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+.community-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.community-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.community-item i {
+  font-size: 1.5rem;
+  color: var(--primary);
+  margin-top: 0.25rem;
+}
+
+.community-item h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--darker);
+}
+
+.community-item p {
+  margin: 0;
+  color: var(--dark);
+  opacity: 0.8;
+  font-size: 0.95rem;
+}
+
+/* قسم النصائح */
+.tips-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.tips-before,
+.tips-after {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.tips-before {
+  border-top: 4px solid var(--warning);
+}
+
+.tips-after {
+  border-top: 4px solid var(--success);
+}
+
+.tips-before h3,
+.tips-after h3 {
+  color: var(--darker);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tips-before h3 i {
+  color: var(--warning);
+}
+
+.tips-after h3 i {
+  color: var(--success);
+}
+
+.tips-before ul,
+.tips-after ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tips-before li,
+.tips-after li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--lighter);
+}
+
+.tips-before li:last-child,
+.tips-after li:last-child {
+  border-bottom: none;
+}
+
+.tips-before li i,
+.tips-after li i {
+  color: var(--success);
+  margin-top: 0.25rem;
+}
+
+/* عملية التبرع خطوة بخطوة */
+.donation-process {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 3rem;
+}
+
+.donation-process h3 {
+  color: var(--darker);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.process-step {
+  text-align: center;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 auto 1rem;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
+}
+
+.step-content h4 {
+  color: var(--darker);
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.step-content p {
+  color: var(--dark);
+  margin: 0;
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
+
+/* الأسئلة الشائعة */
+.faq-section {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 3rem;
+}
+
+.faq-section h3 {
+  color: var(--darker);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.faq-item {
+  border: 1px solid var(--lighter);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.faq-question {
+  padding: 1.5rem;
+  background: var(--lighter);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.faq-question h4 {
+  margin: 0;
+  color: var(--darker);
+  font-size: 1.1rem;
+}
+
+.faq-question i {
+  color: var(--primary);
+}
+
+.faq-answer {
+  padding: 1.5rem;
+  background: var(--white);
+}
+
+.faq-answer p {
+  margin: 0;
+  color: var(--dark);
+  line-height: 1.6;
+}
+
+/* نصائح للمدخنين */
+.smoking-tips {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.smoking-tips h3 {
+  color: var(--darker);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+.smoking-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.smoking-warning,
+.smoking-benefits {
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+}
+
+.smoking-warning {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.smoking-benefits {
+  background: rgba(22, 163, 74, 0.1);
+  border: 1px solid rgba(22, 163, 74, 0.2);
+}
+
+.smoking-warning h4,
+.smoking-benefits h4 {
+  color: var(--darker);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.smoking-warning h4 i {
+  color: var(--warning);
+}
+
+.smoking-benefits h4 i {
+  color: var(--success);
+}
+
+.smoking-warning ul,
+.smoking-benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.smoking-warning li,
+.smoking-benefits li {
+  padding: 0.5rem 0;
+  padding-right: 1.5rem;
+  position: relative;
+  color: var(--dark);
+}
+
+.smoking-warning li::before,
+.smoking-benefits li::before {
+  content: '•';
+  position: absolute;
+  right: 0;
+  font-size: 1.25rem;
+}
+
+.smoking-warning li::before {
+  color: var(--warning);
+}
+
+.smoking-benefits li::before {
+  color: var(--success);
+}
+
+/* معلومات الاتصال */
+.contact-info-section {
+  margin-top: 4rem;
+}
+
+.contact-card {
+  background: linear-gradient(135deg, 
+    rgba(220, 38, 38, 0.1),
+    rgba(185, 28, 28, 0.05)
+  );
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  border-right: 4px solid var(--primary);
+}
+
+.contact-icon {
+  width: 70px;
+  height: 70px;
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.contact-content h3 {
+  color: var(--darker);
+  margin-bottom: 0.5rem;
+}
+
+.contact-content p {
+  color: var(--dark);
+  margin-bottom: 1rem;
+}
+
+.contact-numbers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contact-number {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.number-label {
+  font-weight: 600;
+  color: var(--dark);
+  min-width: 150px;
+}
+
+.number-value {
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2rem;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .quick-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .nav-btn {
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .contraindications-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .blood-types-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .benefits-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .tips-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .process-steps {
+    grid-template-columns: 1fr;
+  }
+  
+  .contact-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  
+  .contact-number {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+  
+  .number-label {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .benefits-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .blood-type-filters {
+    flex-direction: column;
+  }
+  
+  .filter-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
