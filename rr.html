@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>task js</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        background-color: #f0f2f5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px;
+      }
+
+      #myForm,
+      #myresult {
+        background: pink;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+      }
+
+      h1,
+      h3 {
+        color: #000;
+        margin-top: 10px;
+        text-align: center;
+        font-size: 24px;
+      }
+
+      .group1 {
+        margin-bottom: -5px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #000;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        box-sizing: border-box;
+        text-align: right;
+      }
+
+      .label-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #fff 0%, #fff 100%);
+        color: #000;
+        border: none;
+        border-radius: 12px;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s;
+        margin-top: 10px;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        color: #ff69b4;
+      }
+
+      #myresult {
+        border-right: 10px solid pink;
+        background: #fdfdff;
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>نموذج ادخال بيانات</h3>
+
+    <form id="myForm">
+      <div class="group1">
+        <label for="name">الاسم:</label>
+        <input type="text" id="nameid" />
+      </div>
+      <br /><br />
+      <div class="group1">
+        <label for="email">البريد الإلكتروني:</label>
+        <input type="email" id="emailid" />
+      </div>
+      <br /><br />
+      <div class="group1">
+        <label for="age">العمر:</label>
+        <input type="number" id="ageid" />
+      </div>
+      <br /><br />
+      <div class="group1">
+        <label>الجنس:</label>
+        <div class="label-group">
+          <input type="radio" name="gender" value="ذكر" /> ذكر
+          <input type="radio" name="gender" value="أنثى" /> أنثى
+        </div>
+      </div>
+
+      <div class="group1">
+        <label>الاهتمامات:</label>
+        <div class="label-group">
+          <input type="checkbox" value="برمجة" /> برمجة
+        </div>
+        <div class="label-group">
+          <input type="checkbox" value="تصميم" /> تصميم
+        </div>
+        <div class="label-group">
+          <input type="checkbox" value="رياضة" /> رياضة
+        </div>
+        <div class="label-group">
+          <input type="checkbox" value="قراءة" /> قراءة
+        </div>
+      </div>
+
+      <button type="submit">إرسال الآن</button>
+    </form>
+
+    <div id="myresult"></div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
